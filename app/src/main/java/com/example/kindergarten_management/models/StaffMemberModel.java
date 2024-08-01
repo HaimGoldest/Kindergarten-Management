@@ -2,8 +2,6 @@ package com.example.kindergarten_management.models;
 
 import android.content.Context;
 
-import com.example.kindergarten_management.enums.StaffRules;
-
 import java.util.Objects;
 
 /**
@@ -11,7 +9,7 @@ import java.util.Objects;
  */
 public class StaffMemberModel extends BaseModel {
     private String name;
-    private StaffRules rule;
+    private String rule;
     private String startWorkingDate;
     private KindergartenModel assignedKindergarten;
     private ClassModel assignedClass;
@@ -34,7 +32,7 @@ public class StaffMemberModel extends BaseModel {
      * @param assignedKindergarten
      * @param assignedClass
      */
-    public StaffMemberModel(int id, String name, StaffRules rule, String startWorkingDate, KindergartenModel assignedKindergarten, ClassModel assignedClass) {
+    public StaffMemberModel(int id, String name, String rule, String startWorkingDate, KindergartenModel assignedKindergarten, ClassModel assignedClass) {
         super(id);
         this.name = name;
         this.rule = rule;
@@ -63,7 +61,7 @@ public class StaffMemberModel extends BaseModel {
      * Gets the role of the staff member.
      * @return The role of the staff member.
      */
-    public StaffRules getRule() {
+    public String getRule() {
         return rule;
     }
 
@@ -71,7 +69,7 @@ public class StaffMemberModel extends BaseModel {
      * Sets the role of the staff member.
      * @param rule The new role of the staff member.
      */
-    public void setRule(StaffRules rule) {
+    public void setRule(String rule) {
         this.rule = rule;
     }
 

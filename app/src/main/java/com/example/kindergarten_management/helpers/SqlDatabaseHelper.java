@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.kindergarten_management.models.ClassModel;
+import com.example.kindergarten_management.models.KindergartenModel;
 import com.example.kindergarten_management.models.StaffMemberModel;
 
 import java.util.List;
@@ -78,6 +80,21 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<StaffMemberModel> getAllStaffMembers() {
+        // todo - kfir
+        return null;
+    }
+
+    public List<KindergartenModel> getAllKindergartens() {
+        // todo - kfir
+        return null;
+    }
+
+    public List<ClassModel> getAllClasses() {
+        // todo - kfir
+        return null;
+    }
+
+    public List<ClassModel> getClassesByKindergarten(int kindergartenId) {
         // todo - kfir
         return null;
     }

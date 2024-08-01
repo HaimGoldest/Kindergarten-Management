@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.kindergarten_management.helpers.FirebaseDatabaseHelper;
 import com.example.kindergarten_management.helpers.SqlDatabaseHelper;
 import com.example.kindergarten_management.helpers.TempDataHelper;
+import com.example.kindergarten_management.models.ClassModel;
+import com.example.kindergarten_management.models.KindergartenModel;
 import com.example.kindergarten_management.models.StaffMemberModel;
 
 import java.util.List;
@@ -89,6 +91,39 @@ public class DatabaseController {
         return false;
     }
 
+    public List<ClassModel> getAllClasses() {
+        // todo - Firebase
+
+        List<ClassModel> list = sqlDb.getAllClasses();
+        if (list != null){
+            return list;
+        }
+
+        return TempDataHelper.getClassesList();
+    }
+
+    public List<ClassModel> getClassesByKindergarten(KindergartenModel kindergarten) {
+        // todo - Firebase
+
+        List<ClassModel> list = sqlDb.getClassesByKindergarten(kindergarten.getId());
+        if (list != null){
+            return list;
+        }
+
+        return TempDataHelper.getClassesByKindergarten(kindergarten);
+    }
+
+    public List<KindergartenModel> getAllKindergartens() {
+        // todo - Firebase
+
+        List<KindergartenModel> list = sqlDb.getAllKindergartens();
+        if (list != null){
+            return list;
+        }
+
+        return TempDataHelper.getKindergartenList();
+    }
+
     public List<StaffMemberModel> getAllStaffMembers() {
         // todo - Firebase
 
@@ -121,4 +156,6 @@ public class DatabaseController {
             sqlDb = null;
         }
     }
+
+
 }

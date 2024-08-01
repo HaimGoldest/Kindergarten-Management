@@ -1,7 +1,6 @@
 package com.example.kindergarten_management.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.StaffMemberModel;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -81,12 +80,9 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                     if(wasDeleted) {
                         staffList.remove(position);
                         notifyItemRemoved(position);
-                        Snackbar.make(view, "Staff member deleted", Snackbar.LENGTH_SHORT).show();
+                        SnackbarHelper.sendSuccessMessage(view, "Staff member deleted");
                     } else {
-                        Snackbar snackbar = Snackbar.make(view, "Failed to delete Staff member!", Snackbar.LENGTH_SHORT);
-                        View snackbarView = snackbar.getView();
-                        snackbarView.setBackgroundColor(Color.RED);
-                        snackbar.show();
+                        SnackbarHelper.sendErrorMessage(view, "Failed to delete Staff member!");
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)

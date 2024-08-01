@@ -26,7 +26,7 @@ public class ClassModel extends BaseModel {
     public ClassModel(int id, String type, int maxChildren, int maxAge, int minAge, KindergartenModel kindergarten) {
         super(id);
         this.type = type;
-        this.maxChildren = maxChildren;
+        this.setMaxChildren(maxChildren);
         this.maxAge = maxAge;
         this.minAge = minAge;
         this.kindergarten = kindergarten;
@@ -61,7 +61,11 @@ public class ClassModel extends BaseModel {
      * @param maxChildren The new maximum number of children.
      */
     public void setMaxChildren(int maxChildren) {
-        this.maxChildren = maxChildren;
+        if(maxChildren < minChildren) {
+            this.maxChildren = minChildren;
+        } else {
+            this.maxChildren = maxChildren;
+        }
     }
 
     /**
@@ -128,5 +132,10 @@ public class ClassModel extends BaseModel {
         result = 31 * result + maxAge;
         result = 31 * result + minAge;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Class: " + getId() + ", Type: " + type;
     }
 }
