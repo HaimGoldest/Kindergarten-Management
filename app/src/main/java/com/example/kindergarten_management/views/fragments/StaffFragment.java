@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.adapters.StaffAdapter;
+import com.example.kindergarten_management.controllers.DatabaseController;
 import com.example.kindergarten_management.helpers.FragmentHelper;
-import com.example.kindergarten_management.helpers.TempDataHelper;
+import com.example.kindergarten_management.models.StaffMemberModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class StaffFragment extends Fragment {
 
@@ -28,12 +31,11 @@ public class StaffFragment extends Fragment {
         FloatingActionButton fabAddStaff = view.findViewById(R.id.fab_add_staff);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        StaffAdapter adapter = new StaffAdapter(TempDataHelper.getStaffList(), getContext());
+        ArrayList<StaffMemberModel> staffList = (ArrayList<StaffMemberModel>) DatabaseController.getInstance(getContext()).getAllStaffMembers();
+        StaffAdapter adapter = new StaffAdapter(staffList, getContext());
         recyclerView.setAdapter(adapter);
 
-        fabAddStaff.setOnClickListener(v -> {
-            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new AddStaffFragment());
-        });
+        fabAddStaff.setOnClickListener(v -> FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new AddStaffFragment()));
 
         return view;
     }

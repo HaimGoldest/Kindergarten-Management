@@ -134,6 +134,21 @@ public class AddStaffFragment extends Fragment {
             return false;
         }
 
+        if (spinnerRule.getSelectedItem() == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Rule is required!");
+            return false;
+        }
+
+        if (spinnerAssignedKindergarten.getSelectedItem() == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Assigned kindergarten is required!");
+            return false;
+        }
+
+        if (spinnerAssignedClass.getSelectedItem() == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Assigned class is required!");
+            return false;
+        }
+
         return true;
     }
 
@@ -156,7 +171,7 @@ public class AddStaffFragment extends Fragment {
 
         boolean wasAdded = DatabaseController.getInstance(getContext()).addStaffMember(staffMember);
         if (wasAdded) {
-            SnackbarHelper.sendSuccessMessage(getView(), "Staff member added successfully");
+            SnackbarHelper.sendErrorMessage(getView(), "Staff member added successfully");
             getParentFragmentManager().popBackStack();
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to add staff member!");
