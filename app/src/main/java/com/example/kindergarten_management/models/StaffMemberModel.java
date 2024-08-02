@@ -2,6 +2,8 @@ package com.example.kindergarten_management.models;
 
 import android.content.Context;
 
+import com.example.kindergarten_management.controllers.DatabaseController;
+
 import java.util.Objects;
 
 /**
@@ -11,8 +13,8 @@ public class StaffMemberModel extends BaseModel {
     private String name;
     private String rule;
     private String startWorkingDate;
-    private KindergartenModel assignedKindergarten;
-    private ClassModel assignedClass;
+    private int assignedKindergartenId;
+    private int assignedClassId;
 
     /**
      * Constructor that initializes the staff member model with a context.
@@ -24,21 +26,14 @@ public class StaffMemberModel extends BaseModel {
 
     /**
      * Constructor that initializes the staff member model with given parameters.
-     *
-     * @param id                   The ID of the staff member.
-     * @param name                 The name of the staff member.
-     * @param rule                 The role of the staff member.
-     * @param startWorkingDate     The start working date of the staff member.
-     * @param assignedKindergarten
-     * @param assignedClass
      */
-    public StaffMemberModel(int id, String name, String rule, String startWorkingDate, KindergartenModel assignedKindergarten, ClassModel assignedClass) {
+    public StaffMemberModel(int id, String name, String rule, String startWorkingDate, int assignedKindergartenId, int assignedClassId) {
         super(id);
         this.name = name;
         this.rule = rule;
         this.startWorkingDate = startWorkingDate;
-        this.assignedKindergarten = assignedKindergarten;
-        this.assignedClass = assignedClass;
+        this.assignedKindergartenId = assignedKindergartenId;
+        this.assignedClassId = assignedClassId;
     }
 
     /**
@@ -90,19 +85,20 @@ public class StaffMemberModel extends BaseModel {
     }
 
     public KindergartenModel getAssignedKindergarten() {
-        return assignedKindergarten;
+
+        return DatabaseController.getInstance(getContext()).getKindergarten(assignedKindergartenId);
     }
 
-    public void setAssignedKindergarten(KindergartenModel assignedKindergarten) {
-        this.assignedKindergarten = assignedKindergarten;
+    public void setAssignedKindergarten(int assignedKindergartenId) {
+        this.assignedKindergartenId = assignedKindergartenId;
     }
 
     public ClassModel getAssignedClass() {
-        return assignedClass;
+        return DatabaseController.getInstance(getContext()).getClassModel(assignedClassId);
     }
 
-    public void setAssignedClass(ClassModel assignedClass) {
-        this.assignedClass = assignedClass;
+    public void setAssignedClass(int assignedClassId) {
+        this.assignedClassId = assignedClassId;
     }
 
     @Override
@@ -114,7 +110,7 @@ public class StaffMemberModel extends BaseModel {
         StaffMemberModel that = (StaffMemberModel) o;
 
         if (!Objects.equals(name, that.name)) return false;
-        if (rule != that.rule) return false;
+        if (!rule.equals(that.rule)) return false;
         return Objects.equals(startWorkingDate, that.startWorkingDate);
     }
 

@@ -98,4 +98,51 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         // todo - kfir
         return null;
     }
+
+    public boolean deleteClass(int classId) {
+        // todo - kfir
+        return false;
+    }
+
+    public boolean createClass(ClassModel classModel) {
+        // todo - kfir
+        return false;
+    }
+
+    public boolean updateClass(ClassModel classModel) {
+        // todo - kfir
+        return false;
+    }
+
+    public boolean deleteKindergarten(int KindergartenId) {
+        // todo - kfir
+        return false;
+    }
+
+    public boolean createKindergarten(KindergartenModel kindergarten) {
+        // todo - kfir
+        return false;
+    }
+
+    public boolean updateKindergarten(KindergartenModel kindergarten) {
+        // todo - kfir
+        return false;
+    }
+
+    public KindergartenModel readKindergarten(int kindergartenId) {
+        // todo - kfir
+        return null;
+    }
+
+    public KindergartenModel getKindergartenByName(String kindergartenName) {
+        // todo - kfir
+        return null;
+    }
+
+    public ClassModel readClass(int classId) {
+        // todo - kfir
+        return null;
+    }
+
+
 }

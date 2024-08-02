@@ -142,6 +142,6 @@ public class KindergartenModel extends BaseModel {
 
     @Override
     public String toString() {
-        return "Kindergarten: " + name + ", City: " + cityName + ", (" + organizationalAffiliation + ")";
+        return "Kindergarten: " + name + " , City: " + cityName + " , (" + organizationalAffiliation + ")";
     }
 }

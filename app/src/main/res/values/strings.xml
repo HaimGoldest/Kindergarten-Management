@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Kindergarten Management</string>
     <string name="kindergarten_tab">Kindergarten</string>
     <string name="class_tab">Class</string>
@@ -7,9 +8,18 @@
     <string name="select_assigned_kindergarten">Select Kindergarten:</string>
     <string name="select_assigned_class">Select Class:</string>
     <string name="selected_date">"Selected Date: "</string>
+    <string name="name">Name</string>
+    <string name="staff_member_name">Staff Member Name:</string>
+    <string name="set_start_working_date">Set Start Working date</string>
+    <string name="new_name">New Name</string>
+    <string name="update_staff_member">Update Staff Member</string>
+    <string name="add_staff_member">Add Staff Member</string>
 
     <string-array name="staff_rules_array">
         <item>Teacher</item>
         <item>Assistant</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
