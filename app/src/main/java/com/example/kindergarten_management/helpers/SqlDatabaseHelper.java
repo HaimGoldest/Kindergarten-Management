@@ -128,4 +128,21 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         // todo - kfir
         return false;
     }
+
+    public KindergartenModel readKindergarten(int kindergartenId) {
+        // todo - kfir
+        return null;
+    }
+
+    public KindergartenModel getKindergartenByName(String kindergartenName) {
+        // todo - kfir
+        return null;
+    }
+
+    public ClassModel readClass(int classId) {
+        // todo - kfir
+        return null;
+    }
+
+
 }

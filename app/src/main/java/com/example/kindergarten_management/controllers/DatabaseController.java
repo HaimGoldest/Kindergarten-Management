@@ -96,6 +96,18 @@ public class DatabaseController {
         return new Random().nextBoolean();
     }
 
+    public StaffMemberModel getStaffMember(int staffMemberId) {
+        // TODO: Integrate with Firebase
+
+        StaffMemberModel staffMember = sqlDb.readStaffMember(staffMemberId);
+        if (staffMember != null) {
+            return staffMember;
+        }
+
+        // Simulate random data for temporary behavior
+        return TempDataHelper.getStaffMember(staffMemberId);
+    }
+
     /**
      * Retrieves all staff members from the database.
      *
@@ -165,6 +177,18 @@ public class DatabaseController {
 
         // Simulate random result for temporary behavior
         return new Random().nextBoolean();
+    }
+
+    public ClassModel getClassModel(int classId) {
+        // TODO: Integrate with Firebase
+
+        ClassModel classModel = sqlDb.readClass(classId);
+        if (classModel != null) {
+            return classModel;
+        }
+
+        // Simulate random data for temporary behavior
+        return TempDataHelper.getClassModel(classId);
     }
 
     /**
@@ -255,6 +279,28 @@ public class DatabaseController {
         return new Random().nextBoolean();
     }
 
+    public KindergartenModel getKindergarten(int kindergartenId) {
+        // TODO: Integrate with Firebase
+
+        KindergartenModel kindergarten = sqlDb.readKindergarten(kindergartenId);
+        if (kindergarten != null) {
+            return kindergarten;
+        }
+
+        // Simulate random data for temporary behavior
+        return TempDataHelper.getKindergarten(kindergartenId);
+    }
+
+    public KindergartenModel getKindergartenByName(String kindergartenName) {
+        KindergartenModel kindergarten = sqlDb.getKindergartenByName(kindergartenName);
+        if (kindergarten != null) {
+            return kindergarten;
+        }
+
+        // Simulate random data for temporary behavior
+        return TempDataHelper.getKindergartenByName(kindergartenName);
+    }
+
     /**
      * Retrieves all kindergartens from the database.
      *
@@ -292,4 +338,5 @@ public class DatabaseController {
             sqlDb.close();
         }
     }
+
 }

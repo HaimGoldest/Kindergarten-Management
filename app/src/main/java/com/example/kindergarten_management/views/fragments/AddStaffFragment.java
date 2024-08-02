@@ -166,8 +166,8 @@ public class AddStaffFragment extends Fragment {
         staffMember.setName(name);
         staffMember.setRule(rule);
         staffMember.setStartWorkingDate(startWorkingDate);
-        staffMember.setAssignedKindergarten(assignedKindergarten);
-        staffMember.setAssignedClass(assignedClass);
+        staffMember.setAssignedKindergarten(assignedKindergarten.getId());
+        staffMember.setAssignedClass(assignedClass.getId());
 
         boolean wasAdded = DatabaseController.getInstance(getContext()).addStaffMember(staffMember);
         if (wasAdded) {

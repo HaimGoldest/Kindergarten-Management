@@ -9,6 +9,7 @@ import com.example.kindergarten_management.helpers.SharedPreferencesHelper;
  * Handles ID management for all derived classes.
  */
 public abstract class BaseModel {
+    private static Context context;
     private static String keyForLastId;
     private static int idCount;
     private int id;
@@ -18,6 +19,7 @@ public abstract class BaseModel {
      * @param context The context used to access shared preferences.
      */
     public BaseModel(Context context) {
+        this.context = context;
         keyForLastId = getCurrentSimpleClassName();
         if (idCount == 0) {
             String lastId = SharedPreferencesHelper.getInstance(context).getPreference(keyForLastId);
@@ -54,6 +56,14 @@ public abstract class BaseModel {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Gets the Context of the model.
+     * @return The Context of the model.
+     */
+    public static Context getContext() {
+        return context;
     }
 
     /**

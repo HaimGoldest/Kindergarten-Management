@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.kindergarten_management.views.fragments.EmptyFragment;
+
 
 public class FragmentHelper {
 
@@ -19,6 +21,12 @@ public class FragmentHelper {
         fragment.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(fragment_container_id, fragment)
+                .commit();
+    }
+
+    public static void setEmptyFragment(FragmentManager fragmentManager, int fragment_container_id) {
+        fragmentManager.beginTransaction()
+                .replace(fragment_container_id, new EmptyFragment())
                 .commit();
     }
 

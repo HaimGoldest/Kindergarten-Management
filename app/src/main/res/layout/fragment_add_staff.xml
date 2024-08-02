@@ -8,18 +8,28 @@
     android:padding="16dp"
     tools:context=".views.fragments.AddStaffFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:text="@string/staff_member_name"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:hint="@string/name"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/button_set_start_working_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/background_dark"
-        android:text="Set Start Working date" />
+        android:text="@string/set_start_working_date" />
 
     <TextView
         android:id="@+id/label_pick_date"
@@ -28,7 +38,7 @@
         android:text=""
         android:textColor="@android:color/black"
         android:background="@color/white"
-        android:textSize="16dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/label_select_rule"
@@ -82,5 +92,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Add Staff Member" />
+        android:text="@string/add_staff_member" />
 </LinearLayout>

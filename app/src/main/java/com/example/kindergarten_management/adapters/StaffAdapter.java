@@ -1,6 +1,7 @@
 package com.example.kindergarten_management.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
+import com.example.kindergarten_management.helpers.SharedPreferencesHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.StaffMemberModel;
+import com.example.kindergarten_management.views.fragments.AddStaffFragment;
+import com.example.kindergarten_management.views.fragments.UpdateStaffFragment;
 
 import java.util.ArrayList;
 
@@ -24,15 +30,17 @@ import java.util.ArrayList;
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
     private final ArrayList<StaffMemberModel> staffList;
     private final Context context;
+    private FragmentManager fragmentManager;
 
     /**
      * Constructor for initializing the StaffAdapter.
      * @param staffList The list of staff members.
      * @param context The context of the application.
      */
-    public StaffAdapter(ArrayList<StaffMemberModel> staffList, Context context) {
+    public StaffAdapter(ArrayList<StaffMemberModel> staffList, Context context, FragmentManager fragmentManager) {
         this.staffList = staffList;
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -47,12 +55,15 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
     public void onBindViewHolder(@NonNull StaffViewHolder holder, int position) {
         StaffMemberModel staffMember = staffList.get(position);
         holder.nameTextView.setText(staffMember.getName());
-        holder.ruleTextView.setText(staffMember.getRule().toString());
+        holder.ruleTextView.setText(staffMember.getRule());
         holder.startWorkingDateTextView.setText(staffMember.getStartWorkingDate());
 
         holder.btnUpdate.setOnClickListener(v -> {
             String staffMemberId = String.valueOf(staffMember.getId());
-            // todo - move to UpdateStaffFragment and send the staffMemberId
+            Bundle args = new Bundle();
+            args.putString("staffMemberId", staffMemberId);
+            FragmentHelper.replaceFragment(fragmentManager, R.id.kindergarten_manager_fragment, new UpdateStaffFragment(), args);
+
         });
 
         holder.btnDelete.setOnClickListener(v -> {

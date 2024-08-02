@@ -13,7 +13,7 @@ public class ClassModel extends BaseModel {
     private final int minChildren = 15;
     private int maxAge;
     private int minAge;
-    private KindergartenModel kindergarten;
+    private int kindergartenId;
 
     /**
      * Constructor that initializes the class model with a context.
@@ -23,13 +23,13 @@ public class ClassModel extends BaseModel {
         super(context);
     }
 
-    public ClassModel(int id, String type, int maxChildren, int maxAge, int minAge, KindergartenModel kindergarten) {
+    public ClassModel(int id, String type, int maxChildren, int maxAge, int minAge, int kindergartenId) {
         super(id);
         this.type = type;
         this.setMaxChildren(maxChildren);
         this.maxAge = maxAge;
         this.minAge = minAge;
-        this.kindergarten = kindergarten;
+        this.kindergartenId = kindergartenId;
     }
 
     /**
@@ -136,6 +136,6 @@ public class ClassModel extends BaseModel {
 
     @Override
     public String toString() {
-        return "Class: " + getId() + ", Type: " + type;
+        return "Class: " + getId() + " , Type: " + type;
     }
 }

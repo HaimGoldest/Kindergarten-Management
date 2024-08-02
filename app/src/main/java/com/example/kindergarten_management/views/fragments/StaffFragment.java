@@ -32,7 +32,7 @@ public class StaffFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ArrayList<StaffMemberModel> staffList = (ArrayList<StaffMemberModel>) DatabaseController.getInstance(getContext()).getAllStaffMembers();
-        StaffAdapter adapter = new StaffAdapter(staffList, getContext());
+        StaffAdapter adapter = new StaffAdapter(staffList, getContext(), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
 
         fabAddStaff.setOnClickListener(v -> FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new AddStaffFragment()));
