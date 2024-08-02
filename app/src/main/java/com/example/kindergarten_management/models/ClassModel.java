@@ -2,6 +2,8 @@ package com.example.kindergarten_management.models;
 
 import android.content.Context;
 
+import com.example.kindergarten_management.controllers.DatabaseController;
+
 import java.util.Objects;
 
 /**
@@ -106,6 +108,15 @@ public class ClassModel extends BaseModel {
      */
     public void setMinAge(int minAge) {
         this.minAge = minAge;
+    }
+
+    public KindergartenModel getKindergarten() {
+
+        return DatabaseController.getInstance(getContext()).getKindergarten(kindergartenId);
+    }
+
+    public void setKindergarten(int assignedKindergartenId) {
+        this.kindergartenId = assignedKindergartenId;
     }
 
     @Override

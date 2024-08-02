@@ -30,6 +30,7 @@ public class TempDataHelper {
         list.add(new ClassModel(4, "Sport", 20, 11, 8, kindergartenId));
         list.add(new ClassModel(5, "Music", 50, 14, 8, kindergartenId));
         list.add(new ClassModel(6, "Sport", 20, 11, 8, kindergartenId));
+        list.add(new ClassModel(7, "Testing", 50, 15, 6, 2));
 
         return list;
     }

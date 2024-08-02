@@ -7,23 +7,23 @@ import android.widget.Button;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.helpers.FragmentHelper;
+import com.example.kindergarten_management.views.fragments.ClassFragment;
 import com.example.kindergarten_management.views.fragments.StaffFragment;
 
 public class KindergartenManagerActivity extends AppCompatActivity {
-
-    private Button buttonSelectWhen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kindergarten_manager);
 
-        buttonSelectWhen = findViewById(R.id.button_staff_registration);
+        Button buttonStaff = findViewById(R.id.button_staff_registration);
+        Button buttonClass = findViewById(R.id.button_class_registration);
 
-        // replaceFragment(new DefaultFragment());
-
-        buttonSelectWhen.setOnClickListener(v ->
+        buttonStaff.setOnClickListener(v ->
                 FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.kindergarten_manager_fragment, new StaffFragment()));
+        buttonClass.setOnClickListener(v ->
+                FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment()));
     }
 
 }
