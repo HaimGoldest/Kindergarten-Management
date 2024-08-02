@@ -171,7 +171,7 @@ public class AddStaffFragment extends Fragment {
 
         boolean wasAdded = DatabaseController.getInstance(getContext()).addStaffMember(staffMember);
         if (wasAdded) {
-            SnackbarHelper.sendErrorMessage(getView(), "Staff member added successfully");
+            SnackbarHelper.sendSuccessMessage(getView(), "Staff member added successfully");
             getParentFragmentManager().popBackStack();
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to add staff member!");

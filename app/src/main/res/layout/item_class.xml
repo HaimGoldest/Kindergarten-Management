@@ -18,10 +18,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_view_name_label"
+                android:id="@+id/text_view_id_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name_"
+                android:text="@string/class_number"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -32,7 +32,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/text_view_name"
+                android:id="@+id/text_view_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temp_text"
@@ -45,10 +45,37 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_view_rule_label"
+                android:id="@+id/text_view_type_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rule_"
+                android:text="@string/type"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/text_view_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_text"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view_max_children_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/max_children"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -59,7 +86,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/text_view_rule"
+                android:id="@+id/text_view_max_children"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temp_text"
@@ -72,10 +99,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_view_start_working_date_label"
+                android:id="@+id/text_view_age_range_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start_working_date_"
+                android:text="@string/age_range"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -86,7 +113,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/text_view_start_working_date"
+                android:id="@+id/text_view_age_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temp_text"

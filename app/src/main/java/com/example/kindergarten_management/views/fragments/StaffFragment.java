@@ -20,6 +20,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+/**
+ * StaffFragment Fragment
+ */
 public class StaffFragment extends Fragment {
 
     @Nullable

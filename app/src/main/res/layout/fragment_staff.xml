@@ -19,6 +19,6 @@
         android:layout_margin="16dp"
         android:backgroundTint="@android:color/holo_green_light"
         android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Add Staff" />
+        android:contentDescription="@string/add_staff" />
 
 </FrameLayout>

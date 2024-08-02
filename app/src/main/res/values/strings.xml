@@ -1,5 +1,10 @@
 <resources>
 
+    <string-array name="staff_rules_array">
+        <item>Teacher</item>
+        <item>Assistant</item>
+    </string-array>
+
     <string name="app_name">Kindergarten Management</string>
     <string name="kindergarten_tab">Kindergarten</string>
     <string name="class_tab">Class</string>
@@ -14,12 +19,20 @@
     <string name="new_name">New Name</string>
     <string name="update_staff_member">Update Staff Member</string>
     <string name="add_staff_member">Add Staff Member</string>
-
-    <string-array name="staff_rules_array">
-        <item>Teacher</item>
-        <item>Assistant</item>
-    </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_staff">Add Staff</string>
+    <string name="add_class">Add Class</string>
+    <string name="type">Type:</string>
+    <string name="max_children">Max Children:</string>
+    <string name="age_range">Age Range:</string>
+    <string name="temp_text">temp text</string>
+    <string name="name_">Name:</string>
+    <string name="rule_">Rule:</string>
+    <string name="start_working_date_">Start Working Date:</string>
+    <string name="class_number">Class number:</string>
+    <string name="class_type">Class Type:</string>
+    <string name="min_age_">Min Age:</string>
+    <string name="max_age_">Max Age:</string>
+    <string name="update_class">Update Class</string>
 
 </resources>

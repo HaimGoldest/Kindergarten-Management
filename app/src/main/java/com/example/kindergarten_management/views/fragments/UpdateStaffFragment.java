@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
 import com.example.kindergarten_management.helpers.FragmentHelper;
-import com.example.kindergarten_management.helpers.SharedPreferencesHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
@@ -43,7 +41,7 @@ public class UpdateStaffFragment extends Fragment {
     private Button buttonUpdateStaff;
     private Button buttonUpdateStartWorkingDate;
     private Calendar startDateCalendar;
-    private StaffMemberModel staffMember;
+    private StaffMemberModel currentStaffMember;
 
     @Nullable
     @Override
@@ -58,22 +56,21 @@ public class UpdateStaffFragment extends Fragment {
         buttonUpdateStaff = view.findViewById(R.id.button_update_staff);
         buttonUpdateStartWorkingDate = view.findViewById(R.id.button_update_start_working_date);
 
-        int staffMemberId = -1;
-        staffMember = null;
+        currentStaffMember = null;
         Bundle args = getArguments();
         if (args != null) {
-            //staffMemberId = Integer.parseInt(args.getString("staffMemberId"));
-            staffMember = DatabaseController.getInstance(getContext()).getStaffMember(staffMemberId);
+            int staffMemberId = Integer.parseInt(args.getString("staffMemberId"));
+            currentStaffMember = DatabaseController.getInstance(getContext()).getStaffMember(staffMemberId);
         }
 
-        if (staffMember != null) {
-            updateTextName.setText(staffMember.getName());
-            labelUpdateDate.setText("Current start date: " + staffMember.getStartWorkingDate());
-            ((TextView) view.findViewById(R.id.staff_member_name)).setText("Current name is: " + staffMember.getName());
+        if (currentStaffMember != null) {
+            updateTextName.setText(currentStaffMember.getName());
+            labelUpdateDate.setText("Current start date: " + currentStaffMember.getStartWorkingDate());
+            ((TextView) view.findViewById(R.id.staff_member_name)).setText("Current name is: " + currentStaffMember.getName());
 
             setupRuleSpinner();
             setupKindergartenSpinner();
-            setupClassSpinner(staffMember.getAssignedKindergarten(), staffMember.getAssignedClass());
+            setupClassSpinner(currentStaffMember.getAssignedKindergarten(), currentStaffMember.getAssignedClass());
 
             spinnerUpdateKindergarten.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -115,7 +112,7 @@ public class UpdateStaffFragment extends Fragment {
         ArrayAdapter<CharSequence> ruleAdapter = ArrayAdapter.createFromResource(getContext(), R.array.staff_rules_array, android.R.layout.simple_spinner_item);
         ruleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUpdateRule.setAdapter(ruleAdapter);
-        spinnerUpdateRule.setSelection(ruleAdapter.getPosition(staffMember.getRule()));
+        spinnerUpdateRule.setSelection(ruleAdapter.getPosition(currentStaffMember.getRule()));
     }
 
     /**
@@ -127,7 +124,7 @@ public class UpdateStaffFragment extends Fragment {
             ArrayAdapter<KindergartenModel> kindergartenAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, kindergartenList);
             kindergartenAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUpdateKindergarten.setAdapter(kindergartenAdapter);
-            spinnerUpdateKindergarten.setSelection(kindergartenAdapter.getPosition(staffMember.getAssignedKindergarten()));
+            spinnerUpdateKindergarten.setSelection(kindergartenAdapter.getPosition(currentStaffMember.getAssignedKindergarten()));
         }
     }
 
@@ -165,20 +162,20 @@ public class UpdateStaffFragment extends Fragment {
         String newRule = spinnerUpdateRule.getSelectedItem().toString();
         String newKindergartenString = spinnerUpdateKindergarten.getSelectedItem().toString();
         String newClassString = spinnerUpdateClass.getSelectedItem().toString();
-        String newStartDate = (startDateCalendar != null) ? startDateCalendar.get(Calendar.YEAR) + "-" + (startDateCalendar.get(Calendar.MONTH) + 1) + "-" + startDateCalendar.get(Calendar.DAY_OF_MONTH) : staffMember.getStartWorkingDate();
-        staffMember.setStartWorkingDate(newStartDate);
-        staffMember.setName(newName);
-        staffMember.setRule(newRule);
+        String newStartDate = (startDateCalendar != null) ? startDateCalendar.get(Calendar.YEAR) + "-" + (startDateCalendar.get(Calendar.MONTH) + 1) + "-" + startDateCalendar.get(Calendar.DAY_OF_MONTH) : currentStaffMember.getStartWorkingDate();
+        currentStaffMember.setStartWorkingDate(newStartDate);
+        currentStaffMember.setName(newName);
+        currentStaffMember.setRule(newRule);
 
         String newKindergartenName = newKindergartenString.split("\\s+")[1];
         KindergartenModel kindergarten = DatabaseController.getInstance(getContext()).getKindergartenByName(newKindergartenName);
-        staffMember.setAssignedKindergarten(kindergarten.getId());
+        currentStaffMember.setAssignedKindergarten(kindergarten.getId());
 
         int newClassId = Integer.parseInt(newClassString.split("\\s+")[1]);
         ClassModel classModel = DatabaseController.getInstance(getContext()).getClassModel(newClassId);
-        staffMember.setAssignedClass(classModel.getId());
+        currentStaffMember.setAssignedClass(classModel.getId());
 
-        boolean wasUpdated = DatabaseController.getInstance(getContext()).updateStaffMember(staffMember);
+        boolean wasUpdated = DatabaseController.getInstance(getContext()).updateStaffMember(currentStaffMember);
         if (wasUpdated) {
             SnackbarHelper.sendSuccessMessage(getView(), "Staff member updated successfully");
         } else {
