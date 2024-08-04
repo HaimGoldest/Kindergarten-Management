@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/holo_orange_dark"
-                android:text="Update" />
+                android:text="@string/update" />
 
             <Space
                 android:layout_width="0dp"
@@ -115,7 +115,7 @@
                 android:backgroundTint="@android:color/holo_red_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete" />
+                android:text="@string/delete" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
