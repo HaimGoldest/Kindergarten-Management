@@ -38,9 +38,9 @@ public class TempDataHelper {
     public static ArrayList<KindergartenModel> getKindergartenList(){
         ArrayList<KindergartenModel> list = new ArrayList<>();
         list.add(new KindergartenModel(0,"Gan_1", "address_1", "city_1", "050-1234", "08:00", "16:00", "Normal"));
-        list.add(new KindergartenModel(1,"Gan_2", "address_2", "city_2", "050-1234", "08:00", "16:00", "Normal"));
+        list.add(new KindergartenModel(1,"Gan_2", "address_2", "city_2", "050-1234", "08:00", "16:00", "Special Education"));
         list.add(new KindergartenModel(2,"Gan_3", "address_3", "city_3", "050-1234", "08:00", "16:00", "Normal"));
-        list.add(new KindergartenModel(3,"Gan_4", "address_4", "city_4", "050-1234", "08:00", "16:00", "Normal"));
+        list.add(new KindergartenModel(3,"Gan_4", "address_4", "city_4", "050-1234", "08:00", "16:00", "Special Education"));
 
         return list;
     }

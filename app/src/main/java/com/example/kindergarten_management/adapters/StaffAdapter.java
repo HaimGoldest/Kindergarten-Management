@@ -86,7 +86,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         new AlertDialog.Builder(context)
                 .setTitle("Delete Confirmation")
                 .setMessage("Are you sure you want to delete this staff member?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                .setPositiveButton("Yes", (dialog, which) -> {
                     boolean wasDeleted = DatabaseController.getInstance(context).deleteStaffMember(staffMember);
                     if(wasDeleted) {
                         staffList.remove(position);
@@ -96,7 +96,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                         SnackbarHelper.sendErrorMessage(view, "Failed to delete Staff member!");
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton("No", null)
                 .show();
     }
 

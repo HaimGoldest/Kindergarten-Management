@@ -34,5 +34,18 @@
     <string name="min_age_">Min Age:</string>
     <string name="max_age_">Max Age:</string>
     <string name="update_class">Update Class</string>
+    <string name="organizational_affiliation">Organizational Affiliation:</string>
+    <string name="closing_time">Closing Time:</string>
+    <string name="opening_time">Opening Time:</string>
+    <string name="phone">Phone:</string>
+    <string name="city">City:</string>
+    <string name="address">Address:</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="kindergarten_name">Kindergarten Name:</string>
+    <string name="add_kindergarten">Add Kindergarten</string>
+    <string name="update_kindergarten">Update Kindergarten</string>
+    <string name="set_closing_time">Set Closing Time</string>
+    <string name="set_opening_time">Set Opening Time</string>
 
 </resources>

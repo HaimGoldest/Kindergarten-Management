@@ -85,7 +85,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         new AlertDialog.Builder(context)
                 .setTitle("Delete Confirmation")
                 .setMessage("Are you sure you want to delete this class?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                .setPositiveButton("Yes", (dialog, which) -> {
                     boolean wasDeleted = DatabaseController.getInstance(context).deleteClass(classModel);
                     if(wasDeleted) {
                         classList.remove(position);
@@ -95,7 +95,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                         SnackbarHelper.sendErrorMessage(view, "Failed to delete class!");
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton("No", null)
                 .show();
     }
 
