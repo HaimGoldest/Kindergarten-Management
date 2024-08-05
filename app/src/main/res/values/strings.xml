@@ -55,5 +55,9 @@
     <string name="switch_to_login">Don\'t have an account? Sign Up</string>
     <string name="sign_up">Sign Up</string>
     <string name="switch_to_sign_up">Don\'t have an account? Sign Up</string>
+    <string name="child_registration">Child Registration</string>
+    <string name="register_child">Register Child</string>
+    <string name="full_name_">Full Name:</string>
+    <string name="age_">Age:</string>
 
 </resources>

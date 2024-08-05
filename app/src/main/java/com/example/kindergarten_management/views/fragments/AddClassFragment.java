@@ -42,7 +42,7 @@ public class AddClassFragment extends Fragment {
         editTextMaxChildren = view.findViewById(R.id.edit_text_max_children);
         editTextMinAge = view.findViewById(R.id.edit_text_min_age);
         editTextMaxAge = view.findViewById(R.id.edit_text_max_age);
-        spinnerKindergarten = view.findViewById(R.id.spinner_assigned_kindergarten);
+        spinnerKindergarten = view.findViewById(R.id.label_select_kindergarten);
         Button buttonAddClass = view.findViewById(R.id.button_add_class);
 
         buttonAddClass.setOnClickListener(v -> {
@@ -94,7 +94,7 @@ public class AddClassFragment extends Fragment {
         }
 
         if (spinnerKindergarten.getSelectedItem() == null) {
-            SnackbarHelper.sendErrorMessage(getView(), "Assigned kindergarten is required!");
+            SnackbarHelper.sendErrorMessage(getView(), "Kindergarten is required!");
             return false;
         }
 

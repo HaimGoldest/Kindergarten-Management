@@ -21,12 +21,14 @@ import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.views.fragments.UpdateClassFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter class for displaying classes in a RecyclerView.
  */
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
     private final ArrayList<ClassModel> classList;
+    private List<ClassModel> selectedFavorites = new ArrayList<>();
     private final Context context;
     private final FragmentManager fragmentManager;
 
@@ -40,6 +42,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         this.classList = classList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.selectedFavorites = new ArrayList<>();
     }
 
     @NonNull
@@ -97,6 +100,23 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    /**
+     * Returns a list of selected favorite classes objects.
+     *
+     * @return A list of selected favorite classes objects.
+     */
+    public List<ClassModel> getSelectedFavorites() {
+        return selectedFavorites;
+    }
+
+    /**
+     * Resets the selection of favorite classes.
+     */
+    public void resetFavorites() {
+        selectedFavorites.clear();
+        notifyDataSetChanged();
     }
 
     /**
