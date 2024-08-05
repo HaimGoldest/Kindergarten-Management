@@ -47,5 +47,13 @@
     <string name="update_kindergarten">Update Kindergarten</string>
     <string name="set_closing_time">Set Closing Time</string>
     <string name="set_opening_time">Set Opening Time</string>
+    <string name="email_">Email:</string>
+    <string name="password_">Password:</string>
+    <string name="login">Login</string>
+    <string name="email__">Email..</string>
+    <string name="password__">Password..</string>
+    <string name="switch_to_login">Don\'t have an account? Sign Up</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="switch_to_sign_up">Don\'t have an account? Sign Up</string>
 
 </resources>

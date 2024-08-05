@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "5003205739",
+    "project_id": "kindergarten-management-c5f75",
+    "storage_bucket": "kindergarten-management-c5f75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5003205739:android:e8d5510c19c5c2f9aa652e",
+        "android_client_info": {
+          "package_name": "com.example.kindergarten_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcd8lHnxqyow379HM7p5LlMzKKjiCcIS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.kindergarten_management.R;
+import com.example.kindergarten_management.helpers.FragmentHelper;
+import com.example.kindergarten_management.views.fragments.SignUpFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,30 +18,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent editModeIntent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
-        startActivity(editModeIntent);
+        temp();
 
-        //temp();
+        FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.main_fragment, new SignUpFragment());
     }
 
     private void temp(){
         Button aButton = findViewById(R.id.a_button);
-        Button bButton = findViewById(R.id.b_button);
 
         aButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent normalModeIntent = new Intent(MainActivity.this, x.class);
-//                startActivity(normalModeIntent);
+                Intent intent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
+                startActivity(intent);
             }
         });
 
-        bButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent editModeIntent = new Intent(MainActivity.this, x.class);
-//                startActivity(editModeIntent);
-            }
-        });
+
     }
 }

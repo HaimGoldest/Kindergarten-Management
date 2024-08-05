@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.KindergartenModel;
 
@@ -49,10 +50,10 @@ public class UpdateKindergartenFragment extends Fragment {
         buttonAddKindergarten = view.findViewById(R.id.button_add_kindergarten);
 
         currentKindergarten = null;
-        Bundle args = getArguments();
-        if (args != null) {
-            int kindergartenId = Integer.parseInt(args.getString("kindergartenId"));
-            currentKindergarten = DatabaseController.getInstance(getContext()).getKindergarten(kindergartenId);
+        String idString = FragmentHelper.getFragmentData(this,"kindergartenId");
+        if (idString != null) {
+            int id = Integer.parseInt(idString);
+            currentKindergarten = DatabaseController.getInstance(getContext()).getKindergarten(id);
         }
 
         if (currentKindergarten != null) {

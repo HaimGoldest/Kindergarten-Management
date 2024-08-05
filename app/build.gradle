@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    // Add the Google services Gradle plugin
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -29,11 +31,20 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+    // Add the Firebase Authentication dependency
+    implementation 'com.google.firebase:firebase-auth'
+    // Add the Firebase Firestore dependency
+    implementation 'com.google.firebase:firebase-firestore'
 }
+
+// Add the Google services Gradle plugin at the bottom
+apply plugin: 'com.google.gms.google-services'

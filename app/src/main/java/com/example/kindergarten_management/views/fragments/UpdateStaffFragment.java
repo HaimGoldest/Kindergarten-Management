@@ -57,10 +57,10 @@ public class UpdateStaffFragment extends Fragment {
         buttonUpdateStartWorkingDate = view.findViewById(R.id.button_update_start_working_date);
 
         currentStaffMember = null;
-        Bundle args = getArguments();
-        if (args != null) {
-            int staffMemberId = Integer.parseInt(args.getString("staffMemberId"));
-            currentStaffMember = DatabaseController.getInstance(getContext()).getStaffMember(staffMemberId);
+        String idString = FragmentHelper.getFragmentData(this,"staffMemberId");
+        if (idString != null) {
+            int id = Integer.parseInt(idString);
+            currentStaffMember = DatabaseController.getInstance(getContext()).getStaffMember(id);
         }
 
         if (currentStaffMember != null) {

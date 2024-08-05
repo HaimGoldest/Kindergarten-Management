@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
@@ -48,10 +49,10 @@ public class UpdateClassFragment extends Fragment {
         Button buttonUpdateClass = view.findViewById(R.id.button_update_class);
 
         currentClass = null;
-        Bundle args = getArguments();
-        if (args != null) {
-            int classId = Integer.parseInt(args.getString("classId"));
-            currentClass = DatabaseController.getInstance(getContext()).getClassModel(classId);
+        String idString = FragmentHelper.getFragmentData(this,"classId");
+        if (idString != null) {
+            int id = Integer.parseInt(idString);
+            currentClass = DatabaseController.getInstance(getContext()).getClassModel(id);
         }
 
         if (currentClass != null) {
