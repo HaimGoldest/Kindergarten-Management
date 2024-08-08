@@ -126,7 +126,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_STAFF_NAME + " WHERE " + STAFF_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(staffMemberId)});
         if (cursor != null && cursor.moveToFirst()) {
-            StaffMemberModel staffMember = new StaffMemberModel();
+            StaffMemberModel staffMember = new StaffMemberModel(getContext());
             staffMember.setId(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID)));
             staffMember.setName(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME)));
             staffMember.setRule(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE)));
@@ -165,7 +165,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                StaffMemberModel staffMember = new StaffMemberModel();
+                StaffMemberModel staffMember = new StaffMemberModel(getContext());
                 staffMember.setId(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID)));
                 staffMember.setName(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME)));
                 staffMember.setRule(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE)));
@@ -179,7 +179,164 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return staffMembers;
     }
 
-    // Similar CRUD operations for KindergartenModel and ClassModel
+    // CRUD operations for ClassModel
 
-    // Implement getAllKindergartens(), getAllClasses(), getClassesByKindergarten(int kindergartenId), createClass(ClassModel classModel), etc.
+    public boolean createClass(ClassModel classModel) {
+        ContentValues values = new ContentValues();
+        values.put(CLASS_COLUMN_TYPE, classModel.getType());
+        values.put(CLASS_COLUMN_MAX_CHILDREN, classModel.getMaxChildren());
+        values.put(CLASS_COLUMN_MIN_CHILDREN, classModel.getMinChildren());
+        values.put(CLASS_COLUMN_MAX_AGE, classModel.getMaxAge());
+        values.put(CLASS_COLUMN_MIN_AGE, classModel.getMinAge());
+        values.put(CLASS_COLUMN_KIND_ID, classModel.getKindergarten().getId());
+
+        long result = db.insert(TABLE_CLASS_NAME, null, values);
+        return result != -1;
+    }
+
+    public ClassModel readClass(int classId) {
+        String query = "SELECT * FROM " + TABLE_CLASS_NAME + " WHERE " + CLASS_COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(classId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            ClassModel classModel = new ClassModel(getContext());
+            classModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID)));
+            classModel.setType(cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE)));
+            classModel.setMaxChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN)));
+            classModel.setMinChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_CHILDREN)));
+            classModel.setMaxAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_AGE)));
+            classModel.setMinAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE)));
+            // Assuming you have a method to get KindergartenModel by ID
+            classModel.setKindergarten(getKindergartenById(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_KIND_ID))));
+            cursor.close();
+            return classModel;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean updateClass(ClassModel classModel) {
+        ContentValues values = new ContentValues();
+        values.put(CLASS_COLUMN_TYPE, classModel.getType());
+        values.put(CLASS_COLUMN_MAX_CHILDREN, classModel.getMaxChildren());
+        values.put(CLASS_COLUMN_MIN_CHILDREN, classModel.getMinChildren());
+        values.put(CLASS_COLUMN_MAX_AGE, classModel.getMaxAge());
+        values.put(CLASS_COLUMN_MIN_AGE, classModel.getMinAge());
+        values.put(CLASS_COLUMN_KIND_ID, classModel.getKindergarten().getId());
+
+        int result = db.update(TABLE_CLASS_NAME, values, CLASS_COLUMN_ID + " = ?",
+                new String[]{String.valueOf(classModel.getId())});
+        return result > 0;
+    }
+
+    public boolean deleteClass(int classId) {
+        int result = db.delete(TABLE_CLASS_NAME, CLASS_COLUMN_ID + " = ?",
+                new String[]{String.valueOf(classId)});
+        return result > 0;
+    }
+
+    public List<ClassModel> getAllClasses() {
+        List<ClassModel> classes = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_CLASS_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                ClassModel classModel = new ClassModel(getContext());
+                classModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID)));
+                classModel.setType(cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE)));
+                classModel.setMaxChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN)));
+                classModel.setMinChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_CHILDREN)));
+                classModel.setMaxAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_AGE)));
+                classModel.setMinAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE)));
+                // Assuming you have a method to get KindergartenModel by ID
+                classModel.setKindergarten(getKindergartenById(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_KIND_ID))));
+                classes.add(classModel);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return classes;
+    }
+
+    // CRUD operations for KindergartenModel
+
+    public boolean createKindergarten(KindergartenModel kindergarten) {
+        ContentValues values = new ContentValues();
+        values.put(KINDERGARTEN_COLUMN_NAME, kindergarten.getName());
+        values.put(KINDERGARTEN_COLUMN_ADDRESS, kindergarten.getAddress());
+        values.put(KINDERGARTEN_COLUMN_CITY, kindergarten.getCityName());
+        values.put(KINDERGARTEN_COLUMN_PHONE, kindergarten.getPhoneNumber());
+        values.put(KINDERGARTEN_COLUMN_OPENING_TIME, kindergarten.getOpeningTime());
+        values.put(KINDERGARTEN_COLUMN_CLOSING_TIME, kindergarten.getClosingTime());
+        values.put(KINDERGARTEN_COLUMN_AFFILIATION, kindergarten.getOrganizationalAffiliation());
+
+        long result = db.insert(TABLE_KINDERGARTEN_NAME, null, values);
+        return result != -1;
+    }
+
+    public KindergartenModel readKindergarten(int kindergartenId) {
+        String query = "SELECT * FROM " + TABLE_KINDERGARTEN_NAME + " WHERE " + KINDERGARTEN_COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(kindergartenId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            KindergartenModel kindergarten = new KindergartenModel(getContext());
+            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
+            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
+            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
+            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
+            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
+            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
+            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
+            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            cursor.close();
+            return kindergarten;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean updateKindergarten(KindergartenModel kindergarten) {
+        ContentValues values = new ContentValues();
+        values.put(KINDERGARTEN_COLUMN_NAME, kindergarten.getName());
+        values.put(KINDERGARTEN_COLUMN_ADDRESS, kindergarten.getAddress());
+        values.put(KINDERGARTEN_COLUMN_CITY, kindergarten.getCityName());
+        values.put(KINDERGARTEN_COLUMN_PHONE, kindergarten.getPhoneNumber());
+        values.put(KINDERGARTEN_COLUMN_OPENING_TIME, kindergarten.getOpeningTime());
+        values.put(KINDERGARTEN_COLUMN_CLOSING_TIME, kindergarten.getClosingTime());
+        values.put(KINDERGARTEN_COLUMN_AFFILIATION, kindergarten.getOrganizationalAffiliation());
+
+        int result = db.update(TABLE_KINDERGARTEN_NAME, values, KINDERGARTEN_COLUMN_ID + " = ?",
+                new String[]{String.valueOf(kindergarten.getId())});
+        return result > 0;
+    }
+
+    public boolean deleteKindergarten(int kindergartenId) {
+        int result = db.delete(TABLE_KINDERGARTEN_NAME, KINDERGARTEN_COLUMN_ID + " = ?",
+                new String[]{String.valueOf(kindergartenId)});
+        return result > 0;
+    }
+
+    public List<KindergartenModel> getAllKindergartens() {
+        List<KindergartenModel> kindergartens = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_KINDERGARTEN_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                KindergartenModel kindergarten = new KindergartenModel(getContext());
+                kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
+                kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
+                kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
+                kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
+                kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
+                kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
+                kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
+                kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+                kindergartens.add(kindergarten);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return kindergartens;
+    }
+
+    private KindergartenModel getKindergartenById(int id) {
+        // Retrieve a KindergartenModel by its ID, similar to the readKindergarten method
+        return readKindergarten(id);
+    }
 }
