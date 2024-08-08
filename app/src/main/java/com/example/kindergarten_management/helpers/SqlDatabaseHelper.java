@@ -1,5 +1,7 @@
 package com.example.kindergarten_management.helpers;
 
+import static com.example.kindergarten_management.models.BaseModel.getContext;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -228,6 +230,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return result > 0;
     }
 
+
+
     public boolean deleteClass(int classId) {
         int result = db.delete(TABLE_CLASS_NAME, CLASS_COLUMN_ID + " = ?",
                 new String[]{String.valueOf(classId)});
@@ -256,7 +260,34 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return classes;
     }
 
-    // CRUD operations for KindergartenModel
+    public List<ClassModel> getClassesByKindergarten(int kindergartenId) {
+        List<ClassModel> classList = new ArrayList<>();
+
+        // Define the query to fetch classes for a given kindergarten ID
+        String query = "SELECT * FROM " + TABLE_CLASS_NAME + " WHERE " + CLASS_COLUMN_KIND_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(kindergartenId)});
+
+        // Check if cursor has any data and process it
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Create a new ClassModel object and set its properties
+                ClassModel classModel = new ClassModel();
+                classModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID)));
+                classModel.setType(cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE)));
+                classModel.setMaxChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN)));
+                classModel.setMinChildren(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_CHILDREN)));
+                classModel.setMaxAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_AGE)));
+                classModel.setMinAge(cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE)));
+                // Assuming you have a method to get KindergartenModel by ID
+                classModel.setKindergarten(getKindergartenById(kindergartenId));
+                // Add the classModel to the list
+                classList.add(classModel);
+            } while (cursor.moveToNext()); // Move to the next record
+            cursor.close(); // Close the cursor to free resources
+        }
+
+        return classList; // Return the list of classes
+    }
 
     public boolean createKindergarten(KindergartenModel kindergarten) {
         ContentValues values = new ContentValues();
@@ -334,6 +365,31 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return kindergartens;
     }
+
+    public KindergartenModel getKindergartenByName(String name) {
+        String query = "SELECT * FROM " + TABLE_KINDERGARTEN_NAME + " WHERE " + KINDERGARTEN_COLUMN_NAME + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{name});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            KindergartenModel kindergarten = new KindergartenModel(getContext());
+            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
+            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
+            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
+            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
+            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
+            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
+            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
+            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            cursor.close();
+            return kindergarten;
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            return null;
+        }
+    }
+
 
     private KindergartenModel getKindergartenById(int id) {
         // Retrieve a KindergartenModel by its ID, similar to the readKindergarten method

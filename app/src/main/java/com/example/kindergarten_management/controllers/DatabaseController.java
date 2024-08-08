@@ -291,6 +291,7 @@ public class DatabaseController {
         return TempDataHelper.getKindergarten(kindergartenId);
     }
 
+
     public KindergartenModel getKindergartenByName(String kindergartenName) {
         KindergartenModel kindergarten = sqlDb.getKindergartenByName(kindergartenName);
         if (kindergarten != null) {
