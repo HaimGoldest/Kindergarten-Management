@@ -115,8 +115,8 @@ public class ClassModel extends BaseModel {
         return DatabaseController.getInstance(getContext()).getKindergarten(kindergartenId);
     }
 
-    public void setKindergarten(int assignedKindergartenId) {
-        this.kindergartenId = assignedKindergartenId;
+    public void setKindergarten(int kindergartenId) {
+        this.kindergartenId = kindergartenId;
     }
 
     @Override

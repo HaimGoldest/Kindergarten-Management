@@ -1,13 +1,13 @@
-package com.example.kindergarten_management.models;
+package com.example.kindergarten_management.users;
 
-public class UserModel {
+public abstract class BaseUser {
 
     private String uid;
     private String email;
     private String name;
     private String rule;
 
-    public UserModel(String uid, String email) {
+    public BaseUser(String uid, String email) {
         this.uid = uid;
         this.email = email;
         this.name = "User";

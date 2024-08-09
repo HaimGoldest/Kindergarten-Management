@@ -15,20 +15,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
+import com.example.kindergarten_management.users.AdminUser;
+import com.example.kindergarten_management.users.BaseUser;
+import com.example.kindergarten_management.users.KindergartenManagerUser;
 import com.example.kindergarten_management.views.fragments.UpdateClassFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adapter class for displaying classes in a RecyclerView.
  */
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
     private final ArrayList<ClassModel> classList;
+    private List<ClassModel> selectedFavorites;
     private final Context context;
     private final FragmentManager fragmentManager;
+    private boolean haveChangePermissions = false;
 
     /**
      * Constructor for initializing the ClassAdapter.
@@ -40,6 +47,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         this.classList = classList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.selectedFavorites = new ArrayList<>();
+
+        BaseUser currentUser = AuthHelper.currentUser;
+        if (currentUser instanceof AdminUser || currentUser instanceof KindergartenManagerUser) {
+            haveChangePermissions = true;
+        }
     }
 
     @NonNull
@@ -57,17 +70,24 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.typeTextView.setText(classModel.getType());
         holder.maxChildrenTextView.setText(String.valueOf(classModel.getMaxChildren()));
         holder.ageRangeTextView.setText(classModel.getMinAge() + " - " + classModel.getMaxAge());
+        holder.belongsKindergartenTextView.setText(classModel.getKindergarten().getName());
 
-        holder.btnUpdate.setOnClickListener(v -> {
-            String classId = String.valueOf(classModel.getId());
-            Bundle args = new Bundle();
-            args.putString("classId", classId);
-            FragmentHelper.replaceFragment(fragmentManager, R.id.kindergarten_manager_fragment, new UpdateClassFragment(), args);
-        });
+        if (haveChangePermissions) {
+            holder.btnUpdate.setOnClickListener(v -> {
+                String classId = String.valueOf(classModel.getId());
+                Bundle args = new Bundle();
+                args.putString("classId", classId);
+                FragmentHelper.replaceFragment(fragmentManager, R.id.kindergarten_manager_fragment, new UpdateClassFragment(), args);
+            });
 
-        holder.btnDelete.setOnClickListener(v -> {
-            showDeleteConfirmationDialog(holder.itemView, position, classModel);
-        });
+            holder.btnDelete.setOnClickListener(v -> {
+                showDeleteConfirmationDialog(holder.itemView, position, classModel);
+            });
+        } else {
+            holder.btnUpdate.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -100,6 +120,23 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
     }
 
     /**
+     * Returns a list of selected favorite classes objects.
+     *
+     * @return A list of selected favorite classes objects.
+     */
+    public List<ClassModel> getSelectedFavorites() {
+        return selectedFavorites;
+    }
+
+    /**
+     * Resets the selection of favorite classes.
+     */
+    public void resetFavorites() {
+        selectedFavorites.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
      * ViewHolder class for classes.
      */
     public static class ClassViewHolder extends RecyclerView.ViewHolder {
@@ -107,6 +144,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         public TextView typeTextView;
         public TextView maxChildrenTextView;
         public TextView ageRangeTextView;
+        public TextView belongsKindergartenTextView;
         public Button btnUpdate;
         public Button btnDelete;
 
@@ -120,6 +158,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             typeTextView = view.findViewById(R.id.text_view_type);
             maxChildrenTextView = view.findViewById(R.id.text_view_max_children);
             ageRangeTextView = view.findViewById(R.id.text_view_age_range);
+            belongsKindergartenTextView = view.findViewById(R.id.text_view_belongs_to_kindergarten);
             btnUpdate = itemView.findViewById(R.id.btn_update);
             btnDelete = itemView.findViewById(R.id.btn_delete);
         }

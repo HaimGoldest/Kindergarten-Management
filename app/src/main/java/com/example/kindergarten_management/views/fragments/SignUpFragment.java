@@ -17,7 +17,6 @@ import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
-import com.example.kindergarten_management.models.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.adapters.ClassAdapter;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.models.ClassModel;
+import com.example.kindergarten_management.users.AdminUser;
+import com.example.kindergarten_management.users.BaseUser;
+import com.example.kindergarten_management.users.KindergartenManagerUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ import java.util.ArrayList;
  * ClassFragment Fragment
  */
 public class ClassFragment extends Fragment {
+    private boolean haveChangePermissions = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,7 +44,16 @@ public class ClassFragment extends Fragment {
         ClassAdapter adapter = new ClassAdapter(classList, getContext(), getParentFragmentManager());
         recyclerView.setAdapter(adapter);
 
-        fabAddStaff.setOnClickListener(v -> FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new AddClassFragment()));
+        BaseUser currentUser = AuthHelper.currentUser;
+        if (currentUser instanceof AdminUser || currentUser instanceof KindergartenManagerUser) {
+            haveChangePermissions = true;
+        }
+
+        if (haveChangePermissions) {
+            fabAddStaff.setOnClickListener(v -> FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new AddClassFragment()));
+        } else {
+            fabAddStaff.setVisibility(View.GONE);
+        }
 
         return view;
     }

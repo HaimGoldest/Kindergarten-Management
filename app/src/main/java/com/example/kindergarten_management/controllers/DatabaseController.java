@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.kindergarten_management.helpers.FirebaseDatabaseHelper;
 import com.example.kindergarten_management.helpers.SqlDatabaseHelper;
 import com.example.kindergarten_management.helpers.TempDataHelper;
+import com.example.kindergarten_management.models.ChildModel;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
 import com.example.kindergarten_management.models.StaffMemberModel;
@@ -340,4 +341,10 @@ public class DatabaseController {
         }
     }
 
+    public boolean addChild(ChildModel child) {
+        //todo - fix here
+
+        // Simulate random result for temporary behavior
+        return new Random().nextBoolean();
+    }
 }

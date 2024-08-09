@@ -13,6 +13,9 @@
         android:theme="@style/Theme.KindergartenManagement"
         tools:targetApi="34">
         <activity
+            android:name=".views.ParentActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.KindergartenManagerActivity"
             android:exported="false" />
         <activity
