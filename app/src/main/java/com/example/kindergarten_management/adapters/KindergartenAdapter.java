@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.KindergartenModel;
+import com.example.kindergarten_management.users.AdminUser;
+import com.example.kindergarten_management.users.BaseUser;
+import com.example.kindergarten_management.users.KindergartenManagerUser;
 import com.example.kindergarten_management.views.fragments.UpdateClassFragment;
 import com.example.kindergarten_management.views.fragments.UpdateKindergartenFragment;
 
@@ -30,6 +34,8 @@ public class KindergartenAdapter extends RecyclerView.Adapter<KindergartenAdapte
     private final ArrayList<KindergartenModel> kindergartenList;
     private final Context context;
     private final FragmentManager fragmentManager;
+    private boolean haveChangePermissions = false;
+
 
     /**
      * Constructor for initializing the KindergartenAdapter.
@@ -41,6 +47,11 @@ public class KindergartenAdapter extends RecyclerView.Adapter<KindergartenAdapte
         this.kindergartenList = kindergartenList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+
+        BaseUser currentUser = AuthHelper.currentUser;
+        if (currentUser instanceof AdminUser || currentUser instanceof KindergartenManagerUser) {
+            haveChangePermissions = true;
+        }
     }
 
     @NonNull
@@ -63,32 +74,37 @@ public class KindergartenAdapter extends RecyclerView.Adapter<KindergartenAdapte
         holder.textViewClosingTime.setText(kindergarten.getClosingTime());
         holder.textViewOrganizationalAffiliation.setText(kindergarten.getOrganizationalAffiliation());
 
-        holder.btnUpdate.setOnClickListener(view -> {
-            String kindergartenId = String.valueOf(kindergarten.getId());
-            Bundle args = new Bundle();
-            args.putString("kindergartenId", kindergartenId);
-            FragmentHelper.replaceFragment(fragmentManager, R.id.kindergarten_manager_fragment, new UpdateKindergartenFragment(), args);
-        });
+        if (haveChangePermissions) {
+            holder.btnUpdate.setOnClickListener(view -> {
+                String kindergartenId = String.valueOf(kindergarten.getId());
+                Bundle args = new Bundle();
+                args.putString("kindergartenId", kindergartenId);
+                FragmentHelper.replaceFragment(fragmentManager, R.id.kindergarten_manager_fragment, new UpdateKindergartenFragment(), args);
+            });
 
-        holder.btnDelete.setOnClickListener(view -> {
-            new AlertDialog.Builder(context)
-                    .setTitle("Delete Kindergarten")
-                    .setMessage("Are you sure you want to delete this kindergarten?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        boolean isDeleted = DatabaseController.getInstance(view.getContext()).deleteKindergarten(kindergarten);
+            holder.btnDelete.setOnClickListener(view -> {
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Kindergarten")
+                        .setMessage("Are you sure you want to delete this kindergarten?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            boolean isDeleted = DatabaseController.getInstance(view.getContext()).deleteKindergarten(kindergarten);
 
-                        if (isDeleted) {
-                            kindergartenList.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, kindergartenList.size());
-                            SnackbarHelper.sendSuccessMessage(view, "Kindergarten deleted successfully");
-                        } else {
-                            SnackbarHelper.sendErrorMessage(view, "Failed to delete kindergarten");
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
-        });
+                            if (isDeleted) {
+                                kindergartenList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, kindergartenList.size());
+                                SnackbarHelper.sendSuccessMessage(view, "Kindergarten deleted successfully");
+                            } else {
+                                SnackbarHelper.sendErrorMessage(view, "Failed to delete kindergarten");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            });
+        } else {
+            holder.btnUpdate.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
+        }
     }
 
     @Override

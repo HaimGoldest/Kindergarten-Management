@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A9A9A9"
+    android:background="@color/white"
     android:padding="16dp"
     tools:context=".views.fragments.ChildRegistrationFragment">
 
@@ -53,37 +53,7 @@
             android:layout_height="48dp"
             android:inputType="text" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            android:text="@string/city"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_text_city"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:inputType="text" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            android:text="@string/age_"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-
-        <EditText
-            android:id="@+id/edit_text_age"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
-            android:inputType="number" />
 
         <TextView
             android:id="@+id/label_select_kindergarten"
@@ -91,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="8dp"
-            android:text="@string/select_assigned_kindergarten"
+            android:text="@string/select_kindergarten_filtered_by_selected_city"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
@@ -105,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="8dp"
-            android:text="Select up to 3 Favorite Classes:"
+            android:text="@string/select_up_to_3_favorite_classes_"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
 
@@ -114,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/background_dark"
-            android:text="Set Favorite Classes" />
+            android:text="@string/set_favorite_classes_" />
 
         <Button
             android:id="@+id/button_child_registration"

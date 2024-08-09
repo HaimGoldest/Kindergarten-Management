@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         aButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
+                //Intent intent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
+                Intent intent = new Intent(MainActivity.this, ParentActivity.class);
                 startActivity(intent);
             }
         });

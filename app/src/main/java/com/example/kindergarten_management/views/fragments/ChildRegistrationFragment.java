@@ -2,25 +2,32 @@ package com.example.kindergarten_management.views.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ChildModel;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,23 +37,38 @@ public class ChildRegistrationFragment extends Fragment {
 
     private EditText editTextChildId;
     private EditText editTextFullName;
-    private EditText editTextCity;
-    private EditText editTextAge;
     private Spinner spinnerKindergarten;
+    private List<ClassModel> filteredClasses;
     private List<ClassModel> favoriteClassesList;
+
+    String cityData, ageData, organizationalAffiliationData;
+    private boolean isDialogFragmentOpen = false;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_child_registration, container, false);
+        filteredClasses = new ArrayList<>();
+        favoriteClassesList = new ArrayList<>();
 
         editTextChildId = view.findViewById(R.id.edit_text_child_id);
         editTextFullName = view.findViewById(R.id.edit_text_full_name);
-        editTextCity = view.findViewById(R.id.edit_text_city);
-        editTextAge = view.findViewById(R.id.edit_text_age);
         spinnerKindergarten = view.findViewById(R.id.spinner_kindergarten_child_registration);
+        Button buttonSetClasses = view.findViewById(R.id.button_set_favorite_classes);
         Button buttonRegister = view.findViewById(R.id.button_child_registration);
+
+        buttonSetClasses.setOnClickListener(v -> {
+            if (filteredClasses != null && filteredClasses.size() > 0) {
+                FavoriteClassesFragment dialogFragment = FavoriteClassesFragment.newInstance(filteredClasses);
+                dialogFragment.setTargetFragment(this, 0);
+                dialogFragment.show(getParentFragmentManager(), "SelectFavoritesDialogFragment");
+                isDialogFragmentOpen = true;
+            } else {
+                SnackbarHelper.sendErrorMessage(getView(), "This Kindergarten not have any classes yet.");
+            }
+
+        });
 
         buttonRegister.setOnClickListener(v -> {
             if (validateInputs()) {
@@ -54,19 +76,45 @@ public class ChildRegistrationFragment extends Fragment {
             }
         });
 
-        setupKindergartenSpinner();
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initData();
+        setupKindergartenSpinner();
+        setFilteredClass();
+    }
+
     /**
-     * Sets up the spinner for selecting a kindergarten.
+     * Sets up the spinner for selecting a kindergarten - filtered by "city" and "organizational AffiliationData".
      */
     private void setupKindergartenSpinner() {
-        List<KindergartenModel> kindergartenList = DatabaseController.getInstance(getContext()).getAllKindergartens();
-        if (kindergartenList != null) {
-            ArrayAdapter<KindergartenModel> kindergartenAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, kindergartenList);
+        List<KindergartenModel> allList = DatabaseController.getInstance(getContext()).getAllKindergartens();
+        List<KindergartenModel> filteredKindergartenList = new ArrayList<>();
+
+        for(KindergartenModel k : allList) {
+            if (!cityData.isEmpty() && !cityData.equalsIgnoreCase(k.getCityName())) {
+                continue;
+            }
+            if (!organizationalAffiliationData.isEmpty() && !organizationalAffiliationData.equalsIgnoreCase(k.getOrganizationalAffiliation())) {
+                continue;
+            }
+
+            filteredKindergartenList.add(k);
+        }
+
+        if (filteredKindergartenList.size() > 0) {
+            ArrayAdapter<KindergartenModel> kindergartenAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, filteredKindergartenList);
             kindergartenAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerKindergarten.setAdapter(kindergartenAdapter);
+
+            setFilteredClass();
+        } else {
+            SnackbarHelper.sendErrorMessage(getView(), "No kindergarten meets the conditions!");
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.parent_fragment_container, new FindKindergartenFragment());
         }
     }
 
@@ -81,22 +129,12 @@ public class ChildRegistrationFragment extends Fragment {
             return false;
         }
 
-        if (TextUtils.isEmpty(editTextCity.getText())) {
-            editTextCity.setError("City Name is required");
-            return false;
-        }
-
-        if (TextUtils.isEmpty(editTextAge.getText())) {
-            editTextAge.setError("Age is required");
-            return false;
-        }
-
         if (spinnerKindergarten.getSelectedItem() == null) {
             SnackbarHelper.sendErrorMessage(getView(), "Kindergarten is required!");
             return false;
         }
 
-        if (favoriteClassesList == null || favoriteClassesList.size() < 1) {
+        if (isDialogFragmentOpen || favoriteClassesList == null || favoriteClassesList.size() < 1) {
             SnackbarHelper.sendErrorMessage(getView(), "Select at least 1 class!");
             return false;
         }
@@ -111,24 +149,30 @@ public class ChildRegistrationFragment extends Fragment {
         String idString = editTextChildId.getText().toString();
         int id = Integer.parseInt(idString);
         String fullName = editTextFullName.getText().toString();
-        String city = editTextCity.getText().toString();
-        String ageString = editTextAge.getText().toString();
-        int age = Integer.parseInt(ageString);
         KindergartenModel kindergarten = (KindergartenModel) spinnerKindergarten.getSelectedItem();
 
         ChildModel child = new ChildModel(id);
         child.setFullName(fullName);
-        child.setCity(city);
-        child.setAge(age);
+
+        if (cityData != null) {
+            child.setCity(cityData);
+        }
+        if (ageData != null && !ageData.isEmpty()) {
+            try {
+                child.setAge(Integer.parseInt(ageData));
+            } catch (Exception e) {
+                // do nothing
+            }
+
+        }
+
         child.setKindergarten(kindergarten.getId());
         child.setFavoriteClasses(favoriteClassesList);
 
-        //todo - fix here
-        boolean wasAdded = false;
-        //boolean wasAdded = DatabaseController.getInstance(getContext()).addClass(classModel);
+        boolean wasAdded = DatabaseController.getInstance(getContext()).addChild(child);
         if (wasAdded) {
             SnackbarHelper.sendSuccessMessage(getView(), "Child registered successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.setEmptyFragment(getParentFragmentManager(), R.id.parent_fragment_container);
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to register the child!");
         }
@@ -140,5 +184,30 @@ public class ChildRegistrationFragment extends Fragment {
      */
     public void updateClassesAfterDialog(List<ClassModel> favoriteList) {
         favoriteClassesList = favoriteList;
+        isDialogFragmentOpen = false;
+    }
+
+    private void initData() {
+        Bundle args = this.getArguments();
+        if (args != null) {
+            cityData =  args.getString("city");
+            organizationalAffiliationData =  args.getString("organizationalAffiliation");
+            ageData =  args.getString("age");
+        }
+    }
+
+    private void setFilteredClass() {
+        spinnerKindergarten.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                KindergartenModel selectedKindergarten = (KindergartenModel) parent.getSelectedItem();
+                filteredClasses = DatabaseController.getInstance(getContext()).getClassesByKindergarten(selectedKindergarten);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
     }
 }

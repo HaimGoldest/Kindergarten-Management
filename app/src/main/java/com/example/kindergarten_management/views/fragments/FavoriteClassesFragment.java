@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.adapters.ClassAdapter;
+import com.example.kindergarten_management.adapters.FavoritesClassesAdapter;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
 
@@ -31,7 +32,7 @@ public class FavoriteClassesFragment extends DialogFragment {
 
     private static final String ARG_FILTERED_CLASSES = "filteredClasses";
     private ArrayList<ClassModel> filteredClasses;
-    private ClassAdapter classAdapter;
+    private FavoritesClassesAdapter favoritesClassesAdapter;
 
 
     public static FavoriteClassesFragment newInstance(List<ClassModel> filteredClasses) {
@@ -64,12 +65,12 @@ public class FavoriteClassesFragment extends DialogFragment {
         Button buttonSaveFavorites = view.findViewById(R.id.button_save_favorites);
         Button buttonResetFavorites = view.findViewById(R.id.button_reset_favorites);
 
-        classAdapter = new ClassAdapter(filteredClasses, getContext(), getParentFragmentManager());
+        favoritesClassesAdapter = new FavoritesClassesAdapter(filteredClasses);
         recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewFavorites.setAdapter(classAdapter);
+        recyclerViewFavorites.setAdapter(favoritesClassesAdapter);
 
         buttonSaveFavorites.setOnClickListener(v -> {
-            List<ClassModel> favoriteList = classAdapter.getSelectedFavorites();
+            List<ClassModel> favoriteList = favoritesClassesAdapter.getSelectedFavorites();
             if (favoriteList.size() > 3) {
                 SnackbarHelper.sendErrorMessage(getView(), "You can select only up to 3 favorite classes!");
             } else {
@@ -82,7 +83,7 @@ public class FavoriteClassesFragment extends DialogFragment {
         });
 
         buttonResetFavorites.setOnClickListener(v -> {
-            classAdapter.resetFavorites();
+            favoritesClassesAdapter.reset();
         });
     }
 }
