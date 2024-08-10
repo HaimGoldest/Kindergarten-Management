@@ -198,7 +198,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_CLASS_NAME, null, values);
         return result != -1;
     }
-    //Todo use the other constructor with all the parameters
+
     public ClassModel readClass(int classId) {
         String query = "SELECT * FROM " + TABLE_CLASS_NAME + " WHERE " + CLASS_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(classId)});
@@ -309,17 +309,17 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_KINDERGARTEN_NAME + " WHERE " + KINDERGARTEN_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(kindergartenId)});
         if (cursor != null && cursor.moveToFirst()) {
-            // todo - kfir to fix - dont use the getContext() Constructor
-            KindergartenModel kindergarten = new KindergartenModel(getContext());
-            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+            String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+            String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+            String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+            String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+            String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
             cursor.close();
+
+            KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
             return kindergarten;
         } else {
             return null;
@@ -353,16 +353,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                // todo - kfir to fix - dont use the getContext() Constructor
-                KindergartenModel kindergarten = new KindergartenModel(getContext());
-                kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-                kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-                kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-                kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-                kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-                kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-                kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-                kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME));
+                String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+                String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+                String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+                String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+                String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
+
+                KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
                 kindergartens.add(kindergarten);
             } while (cursor.moveToNext());
         }
@@ -375,17 +375,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[]{name});
 
         if (cursor != null && cursor.moveToFirst()) {
-            // todo - kfir to fix - dont use the getContext() Constructor
-            KindergartenModel kindergarten = new KindergartenModel(getContext());
-            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+            String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+            String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+            String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+            String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+            String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
             cursor.close();
+
+            KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
             return kindergarten;
         } else {
             if (cursor != null) {
