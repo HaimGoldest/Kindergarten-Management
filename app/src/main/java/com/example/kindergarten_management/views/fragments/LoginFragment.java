@@ -26,14 +26,14 @@ public class LoginFragment extends Fragment {
 
     private EditText editTextEmail, editTextPassword;
     private ProgressBar progressBar;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         editTextEmail = view.findViewById(R.id.edit_text_email);
         editTextPassword = view.findViewById(R.id.edit_text_password);
         progressBar = view.findViewById(R.id.progress_bar);
@@ -65,12 +65,13 @@ public class LoginFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             progressBar.setVisibility(View.GONE);
             if (task.isSuccessful()) {
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
-                    AuthHelper.userLogin(getContext(),getView(),firebaseUser);
+                    String uid = firebaseUser.getUid();
+                    AuthHelper.userLogin(getContext(), getView(), uid);
                 }
             } else {
               String errorMsg = "Login failed: " + Objects.requireNonNull(task.getException()).getMessage();
