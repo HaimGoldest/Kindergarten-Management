@@ -53,6 +53,21 @@
         android:inputType="textPassword"
         android:text="" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:text="@string/select_rule"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spinner_user_rule"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/user_rule_array" />
+
 
     <Button
         android:id="@+id/button_sign_up"
@@ -75,5 +90,5 @@
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </LinearLayout>

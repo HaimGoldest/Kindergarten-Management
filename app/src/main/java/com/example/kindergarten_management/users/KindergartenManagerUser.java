@@ -13,9 +13,10 @@ public class KindergartenManagerUser extends BaseUser {
     private List<KindergartenModel> kinderGardens;
     private List<ClassModel> classes;
 
-    public KindergartenManagerUser(String uid, String email) {
-        super(uid, email);
+    public KindergartenManagerUser(String uid, String email, String name) {
+        super(uid, email, name);
         kinderGardens = new ArrayList<>();
         classes = new ArrayList<>();
     }
+
 }

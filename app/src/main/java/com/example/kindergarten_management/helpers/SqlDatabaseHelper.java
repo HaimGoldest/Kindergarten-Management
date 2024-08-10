@@ -19,6 +19,10 @@ import java.util.List;
  * Class for managing the SQLite database.
  */
 public class SqlDatabaseHelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "KindergartenManagementDb";
+    private SQLiteDatabase db;
+
     private static final String TABLE_STAFF_NAME = "Staff";
     private static final String STAFF_COLUMN_ID = "id";
     private static final String STAFF_COLUMN_NAME = "name";
@@ -46,10 +50,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     private static final String CLASS_COLUMN_MIN_AGE = "minAge";
     private static final String CLASS_COLUMN_KIND_ID = "kindergartenId";
 
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "KindergartenManagementDb";
-    private SQLiteDatabase db;
-
     public SqlDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -58,7 +58,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
 
-        // Create Staff table
         String CREATE_STAFF_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_STAFF_NAME + " ("
                 + STAFF_COLUMN_ID + " INTEGER PRIMARY KEY, "
                 + STAFF_COLUMN_NAME + " TEXT, "
@@ -68,7 +67,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 + STAFF_COLUMN_ASSIGNED_CLASS_ID + " INTEGER)";
         db.execSQL(CREATE_STAFF_TABLE);
 
-        // Create Kindergarten table
         String CREATE_KINDERGARTEN_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_KINDERGARTEN_NAME + " ("
                 + KINDERGARTEN_COLUMN_ID + " INTEGER PRIMARY KEY, "
                 + KINDERGARTEN_COLUMN_NAME + " TEXT, "
@@ -80,7 +78,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 + KINDERGARTEN_COLUMN_AFFILIATION + " TEXT)";
         db.execSQL(CREATE_KINDERGARTEN_TABLE);
 
-        // Create Class table
         String CREATE_CLASS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CLASS_NAME + " ("
                 + CLASS_COLUMN_ID + " INTEGER PRIMARY KEY, "
                 + CLASS_COLUMN_TYPE + " TEXT, "
@@ -110,8 +107,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // CRUD operations for StaffMemberModel
-
     public boolean createStaffMember(StaffMemberModel staffMember) {
         ContentValues values = new ContentValues();
         values.put(STAFF_COLUMN_ID, staffMember.getId());
@@ -130,7 +125,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(staffMemberId)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            // Extract the values from the cursor
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID));
             String name = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME));
             String rule = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE));
@@ -138,7 +132,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             int assignedKindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID));
             int assignedClassId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID));
 
-            // Use the constructor with the 6 parameters
             StaffMemberModel staffMember = new StaffMemberModel(id, name, rule, startWorkingDate, assignedKindergartenId, assignedClassId);
 
             cursor.close();
@@ -147,7 +140,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
     }
-
 
     public boolean updateStaffMember(StaffMemberModel staffMember) {
         ContentValues values = new ContentValues();
@@ -175,7 +167,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                // Extract the values from the cursor
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME));
                 String rule = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE));
@@ -183,10 +174,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 int assignedKindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID));
                 int assignedClassId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID));
 
-                // Use the constructor with the 6 parameters
                 StaffMemberModel staffMember = new StaffMemberModel(id, name, rule, startWorkingDate, assignedKindergartenId, assignedClassId);
 
-                // Add the staff member to the list
                 staffMembers.add(staffMember);
             } while (cursor.moveToNext());
         }
@@ -195,8 +184,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return staffMembers;
     }
 
-
-    // CRUD operations for ClassModel
 
     public boolean createClass(ClassModel classModel) {
         ContentValues values = new ContentValues();
@@ -211,13 +198,12 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_CLASS_NAME, null, values);
         return result != -1;
     }
-    //Todo use the other constructor with all the parameters
+
     public ClassModel readClass(int classId) {
         String query = "SELECT * FROM " + TABLE_CLASS_NAME + " WHERE " + CLASS_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(classId)});
 
         if (cursor != null && cursor.moveToFirst()) {
-            // Use the second constructor in the ClassModel class
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID));
             String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE));
             int maxChildren = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN));
@@ -225,7 +211,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
             int minAge = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE));
             int kindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_KIND_ID));
 
-            // Create the ClassModel instance using the second constructor
             ClassModel classModel = new ClassModel(id, type, maxChildren, maxAge, minAge, kindergartenId);
 
             cursor.close();
@@ -249,8 +234,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         return result > 0;
     }
 
-
-
     public boolean deleteClass(int classId) {
         int result = db.delete(TABLE_CLASS_NAME, CLASS_COLUMN_ID + " = ?",
                 new String[]{String.valueOf(classId)});
@@ -264,7 +247,6 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                // Extract values from the cursor
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID));
                 String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE));
                 int maxChildren = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN));
@@ -272,10 +254,8 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
                 int minAge = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE));
                 int kindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_KIND_ID));
 
-                // Create ClassModel instance using the second constructor
                 ClassModel classModel = new ClassModel(id, type, maxChildren, maxAge, minAge, kindergartenId);
 
-                // Add the created instance to the list
                 classes.add(classModel);
             } while (cursor.moveToNext());
         }
@@ -288,30 +268,25 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     public List<ClassModel> getClassesByKindergarten(int kindergartenId) {
         List<ClassModel> classList = new ArrayList<>();
 
-        // Define the query to fetch classes for a given kindergarten ID
         String query = "SELECT * FROM " + TABLE_CLASS_NAME + " WHERE " + CLASS_COLUMN_KIND_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(kindergartenId)});
 
-        // Check if cursor has any data and process it
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                // Extract values from the cursor
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_ID));
                 String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_COLUMN_TYPE));
                 int maxChildren = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_CHILDREN));
                 int maxAge = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MAX_AGE));
                 int minAge = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_COLUMN_MIN_AGE));
 
-                // Create a new ClassModel object using the second constructor
                 ClassModel classModel = new ClassModel(id, type, maxChildren, maxAge, minAge, kindergartenId);
 
-                // Add the classModel to the list
                 classList.add(classModel);
-            } while (cursor.moveToNext()); // Move to the next record
-            cursor.close(); // Close the cursor to free resources
+            } while (cursor.moveToNext());
+            cursor.close();
         }
 
-        return classList; // Return the list of classes
+        return classList;
     }
 
 
@@ -334,16 +309,17 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_KINDERGARTEN_NAME + " WHERE " + KINDERGARTEN_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(kindergartenId)});
         if (cursor != null && cursor.moveToFirst()) {
-            KindergartenModel kindergarten = new KindergartenModel(getContext());
-            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+            String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+            String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+            String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+            String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+            String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
             cursor.close();
+
+            KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
             return kindergarten;
         } else {
             return null;
@@ -377,15 +353,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                KindergartenModel kindergarten = new KindergartenModel(getContext());
-                kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-                kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-                kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-                kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-                kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-                kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-                kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-                kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME));
+                String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+                String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+                String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+                String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+                String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+                String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
+
+                KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
                 kindergartens.add(kindergarten);
             } while (cursor.moveToNext());
         }
@@ -398,16 +375,16 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[]{name});
 
         if (cursor != null && cursor.moveToFirst()) {
-            KindergartenModel kindergarten = new KindergartenModel(getContext());
-            kindergarten.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID)));
-            kindergarten.setName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_NAME)));
-            kindergarten.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS)));
-            kindergarten.setCityName(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY)));
-            kindergarten.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE)));
-            kindergarten.setOpeningTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME)));
-            kindergarten.setClosingTime(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME)));
-            kindergarten.setOrganizationalAffiliation(cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION)));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ID));
+            String address = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_ADDRESS));
+            String city = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CITY));
+            String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_PHONE));
+            String openingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_OPENING_TIME));
+            String closingTime = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_CLOSING_TIME));
+            String organizationalAffiliation = cursor.getString(cursor.getColumnIndexOrThrow(KINDERGARTEN_COLUMN_AFFILIATION));
             cursor.close();
+
+            KindergartenModel kindergarten = new KindergartenModel(id, name, address, city, phoneNumber, openingTime, closingTime, organizationalAffiliation);
             return kindergarten;
         } else {
             if (cursor != null) {
@@ -417,9 +394,4 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
-    private KindergartenModel getKindergartenById(int id) {
-        // Retrieve a KindergartenModel by its ID, similar to the readKindergarten method
-        return readKindergarten(id);
-    }
 }

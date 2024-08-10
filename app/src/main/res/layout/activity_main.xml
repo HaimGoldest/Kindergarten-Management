@@ -7,15 +7,35 @@
     android:background="#A9A9A9"
     tools:context=".views.MainActivity">
 
-    <Button
-        android:id="@+id/a_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/manager_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Manager" />
+
+        <Button
+            android:id="@+id/parent_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Parent" />
+
+        <Button
+            android:id="@+id/out_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="out" />
+
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/main_fragment"
@@ -24,7 +44,10 @@
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/a_button" />
+        app:layout_constraintStart_toStartOf="parent" >
+
+    </FrameLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

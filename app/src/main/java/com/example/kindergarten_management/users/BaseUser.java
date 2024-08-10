@@ -7,11 +7,11 @@ public abstract class BaseUser {
     private String name;
     private String rule;
 
-    public BaseUser(String uid, String email) {
+    public BaseUser(String uid, String email, String name) {
         this.uid = uid;
         this.email = email;
-        this.name = "User";
-        this.rule = "Rule";
+        this.name = name;
+        this.rule = this.getClass().getSimpleName();
     }
 
     public String getUid() {
@@ -42,7 +42,4 @@ public abstract class BaseUser {
         return rule;
     }
 
-    public void setRule(String rule) {
-        this.rule = rule;
-    }
 }

@@ -1,5 +1,12 @@
 <resources>
 
+    <string-array name="user_rule_array">
+        <item>Admin</item>
+        <item>Kindergarten Manager</item>
+        <item>Parent</item>
+        <item>Staff Member</item>
+    </string-array>
+
     <string-array name="staff_rules_array">
         <item>Teacher</item>
         <item>Assistant</item>
