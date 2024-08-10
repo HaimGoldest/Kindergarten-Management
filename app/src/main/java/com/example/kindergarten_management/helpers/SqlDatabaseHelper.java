@@ -128,20 +128,26 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
     public StaffMemberModel readStaffMember(int staffMemberId) {
         String query = "SELECT * FROM " + TABLE_STAFF_NAME + " WHERE " + STAFF_COLUMN_ID + " = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(staffMemberId)});
+
         if (cursor != null && cursor.moveToFirst()) {
-            StaffMemberModel staffMember = new StaffMemberModel(getContext());
-            staffMember.setId(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID)));
-            staffMember.setName(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME)));
-            staffMember.setRule(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE)));
-            staffMember.setStartWorkingDate(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_START_WORKING_DATE)));
-            staffMember.setAssignedKindergarten(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID)));
-            staffMember.setAssignedClass(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID)));
+            // Extract the values from the cursor
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME));
+            String rule = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE));
+            String startWorkingDate = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_START_WORKING_DATE));
+            int assignedKindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID));
+            int assignedClassId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID));
+
+            // Use the constructor with the 6 parameters
+            StaffMemberModel staffMember = new StaffMemberModel(id, name, rule, startWorkingDate, assignedKindergartenId, assignedClassId);
+
             cursor.close();
             return staffMember;
         } else {
             return null;
         }
     }
+
 
     public boolean updateStaffMember(StaffMemberModel staffMember) {
         ContentValues values = new ContentValues();
@@ -166,21 +172,29 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
         List<StaffMemberModel> staffMembers = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_STAFF_NAME;
         Cursor cursor = db.rawQuery(query, null);
+
         if (cursor.moveToFirst()) {
             do {
-                StaffMemberModel staffMember = new StaffMemberModel(getContext());
-                staffMember.setId(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID)));
-                staffMember.setName(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME)));
-                staffMember.setRule(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE)));
-                staffMember.setStartWorkingDate(cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_START_WORKING_DATE)));
-                staffMember.setAssignedKindergarten(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID)));
-                staffMember.setAssignedClass(cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID)));
+                // Extract the values from the cursor
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_NAME));
+                String rule = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_RULE));
+                String startWorkingDate = cursor.getString(cursor.getColumnIndexOrThrow(STAFF_COLUMN_START_WORKING_DATE));
+                int assignedKindergartenId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_KIND_ID));
+                int assignedClassId = cursor.getInt(cursor.getColumnIndexOrThrow(STAFF_COLUMN_ASSIGNED_CLASS_ID));
+
+                // Use the constructor with the 6 parameters
+                StaffMemberModel staffMember = new StaffMemberModel(id, name, rule, startWorkingDate, assignedKindergartenId, assignedClassId);
+
+                // Add the staff member to the list
                 staffMembers.add(staffMember);
             } while (cursor.moveToNext());
         }
+
         cursor.close();
         return staffMembers;
     }
+
 
     // CRUD operations for ClassModel
 
