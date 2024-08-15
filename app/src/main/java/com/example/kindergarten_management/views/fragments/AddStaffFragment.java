@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
@@ -157,7 +158,7 @@ public class AddStaffFragment extends Fragment {
      */
     private void addStaffMember() {
         String name = editTextName.getText().toString();
-        String startWorkingDate = labelPickDate.getText().toString();
+        String startWorkingDate = labelPickDate.getText().toString().split(" ")[2];
         String rule = (String) spinnerRule.getSelectedItem();
         KindergartenModel assignedKindergarten = (KindergartenModel) spinnerAssignedKindergarten.getSelectedItem();
         ClassModel assignedClass = (ClassModel) spinnerAssignedClass.getSelectedItem();
@@ -172,7 +173,7 @@ public class AddStaffFragment extends Fragment {
         boolean wasAdded = DatabaseController.getInstance(getContext()).addStaffMember(staffMember);
         if (wasAdded) {
             SnackbarHelper.sendSuccessMessage(getView(), "Staff member added successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new StaffFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to add staff member!");
         }

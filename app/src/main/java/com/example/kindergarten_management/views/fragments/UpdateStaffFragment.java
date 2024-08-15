@@ -149,20 +149,23 @@ public class UpdateStaffFragment extends Fragment {
     private void showDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                (view, year, month, dayOfMonth) -> {
+                (view, selectedYear, selectedMonth, selectedDay) -> {
                     startDateCalendar = Calendar.getInstance();
-                    startDateCalendar.set(year, month, dayOfMonth);
-                    labelUpdateDate.setText("Selected date: " + year + "-" + (month + 1) + "-" + dayOfMonth);
+                    startDateCalendar.set(selectedYear, selectedMonth, selectedDay);
+                    labelUpdateDate.setText(getString(R.string.selected_date) + selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
 
     private void updateStaffMember() {
+        if (!validateInputs())
+            return;
+
         String newName = updateTextName.getText().toString();
         String newRule = spinnerUpdateRule.getSelectedItem().toString();
         String newKindergartenString = spinnerUpdateKindergarten.getSelectedItem().toString();
         String newClassString = spinnerUpdateClass.getSelectedItem().toString();
-        String newStartDate = (startDateCalendar != null) ? startDateCalendar.get(Calendar.YEAR) + "-" + (startDateCalendar.get(Calendar.MONTH) + 1) + "-" + startDateCalendar.get(Calendar.DAY_OF_MONTH) : currentStaffMember.getStartWorkingDate();
+        String newStartDate = labelUpdateDate.getText().toString().split(" ")[2];
         currentStaffMember.setStartWorkingDate(newStartDate);
         currentStaffMember.setName(newName);
         currentStaffMember.setRule(newRule);
@@ -178,9 +181,21 @@ public class UpdateStaffFragment extends Fragment {
         boolean wasUpdated = DatabaseController.getInstance(getContext()).updateStaffMember(currentStaffMember);
         if (wasUpdated) {
             SnackbarHelper.sendSuccessMessage(getView(), "Staff member updated successfully");
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new StaffFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to update staff member!");
         }
+    }
+
+    private boolean validateInputs() {
+        //todo - to implement
+        if (currentStaffMember == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Error: Staff Member not fount");
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment());
+            return false;
+        }
+
+        return true;
     }
 
 }

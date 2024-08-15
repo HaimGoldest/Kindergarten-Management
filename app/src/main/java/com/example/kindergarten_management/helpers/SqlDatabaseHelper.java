@@ -143,6 +143,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateStaffMember(StaffMemberModel staffMember) {
         ContentValues values = new ContentValues();
+        values.put(STAFF_COLUMN_ID, staffMember.getId());
         values.put(STAFF_COLUMN_NAME, staffMember.getName());
         values.put(STAFF_COLUMN_RULE, staffMember.getRule());
         values.put(STAFF_COLUMN_START_WORKING_DATE, staffMember.getStartWorkingDate());
@@ -222,6 +223,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateClass(ClassModel classModel) {
         ContentValues values = new ContentValues();
+        values.put(CLASS_COLUMN_ID, classModel.getId());
         values.put(CLASS_COLUMN_TYPE, classModel.getType());
         values.put(CLASS_COLUMN_MAX_CHILDREN, classModel.getMaxChildren());
         values.put(CLASS_COLUMN_MIN_CHILDREN, classModel.getMinChildren());
@@ -328,6 +330,7 @@ public class SqlDatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateKindergarten(KindergartenModel kindergarten) {
         ContentValues values = new ContentValues();
+        values.put(KINDERGARTEN_COLUMN_ID, kindergarten.getId());
         values.put(KINDERGARTEN_COLUMN_NAME, kindergarten.getName());
         values.put(KINDERGARTEN_COLUMN_ADDRESS, kindergarten.getAddress());
         values.put(KINDERGARTEN_COLUMN_CITY, kindergarten.getCityName());

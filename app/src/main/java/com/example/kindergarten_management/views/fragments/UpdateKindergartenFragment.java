@@ -76,7 +76,7 @@ public class UpdateKindergartenFragment extends Fragment {
 
         buttonAddKindergarten.setOnClickListener(v -> {
             if (validateInputs()) {
-                addKindergarten();
+                updateKindergarten();
             }
         });
 
@@ -97,6 +97,12 @@ public class UpdateKindergartenFragment extends Fragment {
      * @return True if inputs are valid, false otherwise.
      */
     private boolean validateInputs() {
+        if (currentKindergarten == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Error: Kindergarten not fount");
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new KindergartenFragment());
+            return false;
+        }
+
         if (TextUtils.isEmpty(editTextName.getText())) {
             SnackbarHelper.sendErrorMessage(getView(), "Kindergarten name is required!");
             return false;
@@ -131,7 +137,7 @@ public class UpdateKindergartenFragment extends Fragment {
     /**
      * Update a Kindergarten in the database.
      */
-    private void addKindergarten() {
+    private void updateKindergarten() {
         String name = editTextName.getText().toString();
         String address = editTextAddress.getText().toString();
         String cityName = editTextCityName.getText().toString();
@@ -140,19 +146,12 @@ public class UpdateKindergartenFragment extends Fragment {
         String closingTime = textViewClosingTime.getText().toString();
         String organizationalAffiliation = textViewOrganizationalAffiliation.getText().toString();
 
-        KindergartenModel kindergarten = new KindergartenModel(getContext());
-        kindergarten.setName(name);
-        kindergarten.setAddress(address);
-        kindergarten.setCityName(cityName);
-        kindergarten.setPhoneNumber(phoneNumber);
-        kindergarten.setOpeningTime(openingTime);
-        kindergarten.setClosingTime(closingTime);
-        kindergarten.setOrganizationalAffiliation(organizationalAffiliation);
+        KindergartenModel kindergarten = new KindergartenModel(currentKindergarten.getId(), name, address, cityName, phoneNumber, openingTime, closingTime, organizationalAffiliation);
 
         boolean wasUpdated = DatabaseController.getInstance(getContext()).updateKindergarten(kindergarten);
         if (wasUpdated) {
             SnackbarHelper.sendSuccessMessage(getView(), "Kindergarten updated successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new KindergartenFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to update kindergarten!");
         }

@@ -91,6 +91,12 @@ public class UpdateClassFragment extends Fragment {
      * @return True if inputs are valid, false otherwise.
      */
     private boolean validateInputs() {
+        if (currentClass == null) {
+            SnackbarHelper.sendErrorMessage(getView(), "Error: Class not fount");
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment());
+            return false;
+        }
+
         if (TextUtils.isEmpty(editTextType.getText())) {
             SnackbarHelper.sendErrorMessage(getView(), "Class type is required!");
             return false;
@@ -129,17 +135,12 @@ public class UpdateClassFragment extends Fragment {
         int maxAge = Integer.parseInt(editTextMaxAge.getText().toString());
         KindergartenModel assignedKindergarten = (KindergartenModel) spinnerUpdateKindergarten.getSelectedItem();
 
-        ClassModel classModel = new ClassModel(getContext());
-        classModel.setType(type);
-        classModel.setMaxChildren(maxChildren);
-        classModel.setMinAge(minAge);
-        classModel.setMaxAge(maxAge);
-        classModel.setKindergarten(assignedKindergarten.getId());
+        ClassModel classModel = new ClassModel(currentClass.getId(), type, maxChildren, maxAge, minAge, assignedKindergarten.getId());
 
         boolean wasUpdated = DatabaseController.getInstance(getContext()).updateClass(classModel);
         if (wasUpdated) {
             SnackbarHelper.sendSuccessMessage(getView(), "Class updated successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to update class!");
         }

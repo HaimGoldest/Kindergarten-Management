@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.40" />
+        app:layout_constraintWidth_percent="0.37" />
 
     <Button
         android:id="@+id/button_class_registration"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_staff_registration"
         app:layout_constraintStart_toEndOf="@+id/button_kindergarten_registration"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.25" />
 
     <Button
         android:id="@+id/button_staff_registration"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_class_registration"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.25" />
 
     <FrameLayout
         android:id="@+id/kindergarten_manager_fragment"
