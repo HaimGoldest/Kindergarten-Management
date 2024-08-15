@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.kindergarten_management.helpers.FirebaseDatabaseHelper;
 import com.example.kindergarten_management.helpers.SqlDatabaseHelper;
-import com.example.kindergarten_management.helpers.TempDataHelper;
 import com.example.kindergarten_management.models.ChildModel;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
@@ -23,7 +22,6 @@ public class DatabaseController {
     private static SqlDatabaseHelper sqlDb = null;
     private static Context context = null;
 
-    // Private constructor to prevent instantiation
     private DatabaseController() {
     }
 
@@ -52,13 +50,7 @@ public class DatabaseController {
     public boolean deleteStaffMember(StaffMemberModel staffMember) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.deleteStaffMember(staffMember.getId());
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.deleteStaffMember(staffMember.getId());
     }
 
     /**
@@ -70,13 +62,7 @@ public class DatabaseController {
     public boolean addStaffMember(StaffMemberModel staffMember) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.createStaffMember(staffMember);
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.createStaffMember(staffMember);
     }
 
     /**
@@ -88,25 +74,13 @@ public class DatabaseController {
     public boolean updateStaffMember(StaffMemberModel staffMember) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.updateStaffMember(staffMember);
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.updateStaffMember(staffMember);
     }
 
     public StaffMemberModel getStaffMember(int staffMemberId) {
         // TODO: Integrate with Firebase
 
-        StaffMemberModel staffMember = sqlDb.readStaffMember(staffMemberId);
-        if (staffMember != null) {
-            return staffMember;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getStaffMember(staffMemberId);
+        return sqlDb.readStaffMember(staffMemberId);
     }
 
     /**
@@ -117,13 +91,7 @@ public class DatabaseController {
     public List<StaffMemberModel> getAllStaffMembers() {
         // TODO: Integrate with Firebase
 
-        List<StaffMemberModel> staffMembers = sqlDb.getAllStaffMembers();
-        if (staffMembers != null) {
-            return staffMembers;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getStaffList();
+        return sqlDb.getAllStaffMembers();
     }
 
     /**
@@ -135,13 +103,7 @@ public class DatabaseController {
     public boolean deleteClass(ClassModel classModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.deleteClass(classModel.getId());
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.deleteClass(classModel.getId());
     }
 
     /**
@@ -153,13 +115,7 @@ public class DatabaseController {
     public boolean addClass(ClassModel classModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.createClass(classModel);
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.createClass(classModel);
     }
 
     /**
@@ -171,25 +127,14 @@ public class DatabaseController {
     public boolean updateClass(ClassModel classModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.updateClass(classModel);
-        if (res) {
-            return true;
-        }
+        return sqlDb.updateClass(classModel);
 
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
     }
 
     public ClassModel getClassModel(int classId) {
         // TODO: Integrate with Firebase
 
-        ClassModel classModel = sqlDb.readClass(classId);
-        if (classModel != null) {
-            return classModel;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getClassModel(classId);
+        return sqlDb.readClass(classId);
     }
 
     /**
@@ -200,13 +145,7 @@ public class DatabaseController {
     public List<ClassModel> getAllClasses() {
         // TODO: Integrate with Firebase
 
-        List<ClassModel> classes = sqlDb.getAllClasses();
-        if (classes != null) {
-            return classes;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getClassesList();
+        return sqlDb.getAllClasses();
     }
 
     /**
@@ -218,12 +157,7 @@ public class DatabaseController {
     public List<ClassModel> getClassesByKindergarten(KindergartenModel kindergarten) {
         // TODO: Integrate with Firebase
 
-        List<ClassModel> list = sqlDb.getClassesByKindergarten(kindergarten.getId());
-        if (list != null){
-            return list;
-        }
-
-        return TempDataHelper.getClassesByKindergarten(kindergarten);
+        return sqlDb.getClassesByKindergarten(kindergarten.getId());
     }
 
     /**
@@ -235,13 +169,7 @@ public class DatabaseController {
     public boolean deleteKindergarten(KindergartenModel kindergartenModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.deleteKindergarten(kindergartenModel.getId());
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.deleteKindergarten(kindergartenModel.getId());
     }
 
     /**
@@ -253,13 +181,7 @@ public class DatabaseController {
     public boolean addKindergarten(KindergartenModel kindergartenModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.createKindergarten(kindergartenModel);
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.createKindergarten(kindergartenModel);
     }
 
     /**
@@ -271,36 +193,18 @@ public class DatabaseController {
     public boolean updateKindergarten(KindergartenModel kindergartenModel) {
         // TODO: Integrate with Firebase
 
-        boolean res = sqlDb.updateKindergarten(kindergartenModel);
-        if (res) {
-            return true;
-        }
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return sqlDb.updateKindergarten(kindergartenModel);
     }
 
     public KindergartenModel getKindergarten(int kindergartenId) {
         // TODO: Integrate with Firebase
 
-        KindergartenModel kindergarten = sqlDb.readKindergarten(kindergartenId);
-        if (kindergarten != null) {
-            return kindergarten;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getKindergarten(kindergartenId);
+        return sqlDb.readKindergarten(kindergartenId);
     }
 
 
     public KindergartenModel getKindergartenByName(String kindergartenName) {
-        KindergartenModel kindergarten = sqlDb.getKindergartenByName(kindergartenName);
-        if (kindergarten != null) {
-            return kindergarten;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getKindergartenByName(kindergartenName);
+        return sqlDb.getKindergartenByName(kindergartenName);
     }
 
     /**
@@ -311,13 +215,7 @@ public class DatabaseController {
     public List<KindergartenModel> getAllKindergartens() {
         // TODO: Integrate with Firebase
 
-        List<KindergartenModel> kindergartens = sqlDb.getAllKindergartens();
-        if (kindergartens != null) {
-            return kindergartens;
-        }
-
-        // Simulate random data for temporary behavior
-        return TempDataHelper.getKindergartenList();
+        return sqlDb.getAllKindergartens();
     }
 
     /**

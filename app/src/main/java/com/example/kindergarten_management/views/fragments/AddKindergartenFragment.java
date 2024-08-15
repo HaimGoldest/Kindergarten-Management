@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.KindergartenModel;
 
@@ -132,7 +133,7 @@ public class AddKindergartenFragment extends Fragment {
         boolean wasAdded = DatabaseController.getInstance(getContext()).addKindergarten(kindergarten);
         if (wasAdded) {
             SnackbarHelper.sendSuccessMessage(getView(), "Kindergarten added successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new KindergartenFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to add kindergarten!");
         }

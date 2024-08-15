@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.controllers.DatabaseController;
+import com.example.kindergarten_management.helpers.FragmentHelper;
 import com.example.kindergarten_management.helpers.SnackbarHelper;
 import com.example.kindergarten_management.models.ClassModel;
 import com.example.kindergarten_management.models.KindergartenModel;
@@ -42,7 +43,7 @@ public class AddClassFragment extends Fragment {
         editTextMaxChildren = view.findViewById(R.id.edit_text_max_children);
         editTextMinAge = view.findViewById(R.id.edit_text_min_age);
         editTextMaxAge = view.findViewById(R.id.edit_text_max_age);
-        spinnerKindergarten = view.findViewById(R.id.label_select_kindergarten);
+        spinnerKindergarten = view.findViewById(R.id.spinner_kindergarten);
         Button buttonAddClass = view.findViewById(R.id.button_add_class);
 
         buttonAddClass.setOnClickListener(v -> {
@@ -121,7 +122,7 @@ public class AddClassFragment extends Fragment {
         boolean wasAdded = DatabaseController.getInstance(getContext()).addClass(classModel);
         if (wasAdded) {
             SnackbarHelper.sendSuccessMessage(getView(), "Class added successfully");
-            getParentFragmentManager().popBackStack();
+            FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment());
         } else {
             SnackbarHelper.sendErrorMessage(getView(), "Failed to add class!");
         }
