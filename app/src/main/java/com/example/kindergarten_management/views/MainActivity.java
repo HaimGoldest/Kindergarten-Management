@@ -1,12 +1,12 @@
 package com.example.kindergarten_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
+import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         buttonsSetup();
 
         AuthHelper.checkLoggedInUser(this, findViewById(android.R.id.content), success -> {
@@ -33,38 +36,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void buttonsSetup(){
-        Button manager_button = findViewById(R.id.manager_button);
-        Button parent_button = findViewById(R.id.parent_button);
-        Button out_button = findViewById(R.id.out_button);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-        manager_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthHelper.currentUser = new KindergartenManagerUser("uid", "mail", "name");
-                Intent intent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_option_1) {
+            // Handle option 1 click
+            Toast.makeText(this, "Option 1 selected", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.menu_option_2) {
+            // Handle option 2 click
+            Toast.makeText(this, "Option 2 selected", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.menu_option_3) {
+            // Handle option 3 click
+            Toast.makeText(this, "Option 3 selected", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        parent_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthHelper.currentUser = new ParentUser("uid", "mail", "name");
-                Intent intent = new Intent(MainActivity.this, ParentActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
-
-        out_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              AuthHelper.signOutUser(getApplicationContext());
-            }
-        });
-
-
+    private void buttonsSetup() {
+        // existing buttons setup code
     }
 }

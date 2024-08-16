@@ -1,6 +1,7 @@
 package com.example.kindergarten_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.widget.Button;
 import com.example.kindergarten_management.R;
@@ -17,6 +18,11 @@ public class ParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent);
 
+        // Set up the toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Initialize buttons and set click listeners
         Button buttonShowKindergartens = findViewById(R.id.button_show_kindergartens);
         Button buttonShowClasses = findViewById(R.id.button_show_classes);
         Button buttonChildRegistration = findViewById(R.id.button_child_registration);

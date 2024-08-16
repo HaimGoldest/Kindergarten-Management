@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_option_1"
+        android:title="Option 1"
+        android:orderInCategory="100"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_2"
+        android:title="Option 2"
+        android:orderInCategory="200"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/menu_option_3"
+        android:title="Option 3"
+        android:orderInCategory="300"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        android:showAsAction="never" />
+</menu>
