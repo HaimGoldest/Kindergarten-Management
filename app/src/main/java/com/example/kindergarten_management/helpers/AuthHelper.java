@@ -16,6 +16,7 @@ import com.example.kindergarten_management.views.KindergartenManagerActivity;
 import com.example.kindergarten_management.views.MainActivity;
 import com.example.kindergarten_management.views.ParentActivity;
 import com.example.kindergarten_management.views.fragments.AdminFragment;
+import com.example.kindergarten_management.views.fragments.StaffMainFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -199,6 +200,7 @@ public class AuthHelper {
                 context.startActivity(intent);
                 break;
             case "StaffMemberUser":
+                FragmentHelper.replaceFragment(fragmentManager, R.id.main_fragment, new StaffMainFragment());
                 break;
         }
     }

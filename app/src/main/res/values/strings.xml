@@ -77,5 +77,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="parent_page">Parent Page</string>
     <string name="manager_page">Manager Page</string>
+    <string name="upload_image">Upload Image</string>
 
 </resources>
