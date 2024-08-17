@@ -1,21 +1,25 @@
 package com.example.kindergarten_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
-import com.example.kindergarten_management.users.KindergartenManagerUser;
-import com.example.kindergarten_management.users.ParentUser;
+import com.example.kindergarten_management.users.AdminUser;
 import com.example.kindergarten_management.views.fragments.SignUpFragment;
 import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,47 +28,67 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
-        buttonsSetup();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        AuthHelper.checkLoggedInUser(this, findViewById(android.R.id.content), success -> {
+        AuthHelper.checkLoggedInUser(this, findViewById(android.R.id.content), getSupportFragmentManager(), success -> {
             if (!success) {
                 FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.main_fragment, new SignUpFragment());
             }
+            ProgressBar progressBar = findViewById(R.id.main_progress_bar);
+            progressBar.setVisibility(View.GONE);
         });
+
     }
 
-    private void buttonsSetup(){
-        Button manager_button = findViewById(R.id.manager_button);
-        Button parent_button = findViewById(R.id.parent_button);
-        Button out_button = findViewById(R.id.out_button);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-        manager_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthHelper.currentUser = new KindergartenManagerUser("uid", "mail", "name");
-                Intent intent = new Intent(MainActivity.this, KindergartenManagerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem option2 = menu.findItem(R.id.menu_manager_page);
+        MenuItem option3 = menu.findItem(R.id.menu_parent_page);
 
-        parent_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthHelper.currentUser = new ParentUser("uid", "mail", "name");
-                Intent intent = new Intent(MainActivity.this, ParentActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+        boolean haveFullPermissions = AuthHelper.currentUser instanceof AdminUser;
+        option2.setVisible(haveFullPermissions);
+        option3.setVisible(haveFullPermissions);
 
-        out_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              AuthHelper.signOutUser(getApplicationContext());
-            }
-        });
+        return super.onPrepareOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_sign_out) {
+            handleSignOutClick();
+            return true;
+        } else if (itemId == R.id.menu_manager_page) {
+            handleManagerPageClick();
+            return true;
+        } else if (itemId == R.id.menu_parent_page) {
+            handleParentPageClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void handleSignOutClick() {
+        AuthHelper.signOutUser(getApplicationContext());
+    }
+
+    private void handleManagerPageClick() {
+        Intent intent = new Intent(this, KindergartenManagerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleParentPageClick() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

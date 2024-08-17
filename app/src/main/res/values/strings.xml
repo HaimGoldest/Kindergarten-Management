@@ -59,9 +59,9 @@
     <string name="login">Login</string>
     <string name="email__">Email..</string>
     <string name="password__">Password..</string>
-    <string name="switch_to_login">Don\'t have an account? Sign Up</string>
+    <string name="switch_to_sign_up">Not have an account? Sign Up</string>
+    <string name="switch_to_login">Have an account? Login</string>
     <string name="sign_up">Sign Up</string>
-    <string name="switch_to_sign_up">Don\'t have an account? Sign Up</string>
     <string name="child_registration">Child Registration</string>
     <string name="register_child">Register Child</string>
     <string name="full_name_">Full Name:</string>
@@ -74,5 +74,8 @@
     <string name="select_kindergarten_filtered_by_selected_city">Select Kindergarten (filtered by selected city):</string>
     <string name="belongs_to_kindergarten_">Belongs to Kindergarten:</string>
     <string name="select_class_">Select Class:</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="parent_page">Parent Page</string>
+    <string name="manager_page">Manager Page</string>
 
 </resources>

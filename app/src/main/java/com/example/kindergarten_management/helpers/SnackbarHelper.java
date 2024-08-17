@@ -9,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SnackbarHelper {
     public static void sendSuccessMessage(View view, String message){
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(Color.GREEN);
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -18,7 +18,7 @@ public class SnackbarHelper {
     }
 
     public static void sendErrorMessage(View view, String message){
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(Color.RED);
         snackbar.show();

@@ -1,12 +1,19 @@
 package com.example.kindergarten_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import com.example.kindergarten_management.R;
+import com.example.kindergarten_management.helpers.AuthHelper;
 import com.example.kindergarten_management.helpers.FragmentHelper;
+import com.example.kindergarten_management.users.AdminUser;
 import com.example.kindergarten_management.views.fragments.ClassFragment;
 import com.example.kindergarten_management.views.fragments.KindergartenFragment;
 import com.example.kindergarten_management.views.fragments.StaffFragment;
@@ -18,6 +25,9 @@ public class KindergartenManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kindergarten_manager);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         Button buttonStaff = findViewById(R.id.button_staff_registration);
         Button buttonClass = findViewById(R.id.button_class_registration);
         Button buttonKindergarten = findViewById(R.id.button_kindergarten_registration);
@@ -28,6 +38,57 @@ public class KindergartenManagerActivity extends AppCompatActivity {
                 FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment()));
         buttonKindergarten.setOnClickListener(v ->
                 FragmentHelper.replaceFragment(getSupportFragmentManager(), R.id.kindergarten_manager_fragment, new KindergartenFragment()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem option2 = menu.findItem(R.id.menu_manager_page);
+        MenuItem option3 = menu.findItem(R.id.menu_parent_page);
+
+        boolean haveFullPermissions = AuthHelper.currentUser instanceof AdminUser;
+        option2.setVisible(haveFullPermissions);
+        option3.setVisible(haveFullPermissions);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_sign_out) {
+            handleSignOutClick();
+            return true;
+        } else if (itemId == R.id.menu_manager_page) {
+            handleManagerPageClick();
+            return true;
+        } else if (itemId == R.id.menu_parent_page) {
+            handleParentPageClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void handleSignOutClick() {
+        AuthHelper.signOutUser(getApplicationContext());
+    }
+
+    private void handleManagerPageClick() {
+        Intent intent = new Intent(this, KindergartenManagerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void handleParentPageClick() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 }

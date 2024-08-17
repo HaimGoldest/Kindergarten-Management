@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_sign_out"
+        android:title="@string/sign_out"
+        android:orderInCategory="100"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_manager_page"
+        android:title="@string/manager_page"
+        android:orderInCategory="200"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_parent_page"
+        android:title="@string/parent_page"
+        android:orderInCategory="300"
+        android:titleTextAppearance="@style/MenuTextStyle"
+        app:showAsAction="never" />
+</menu>

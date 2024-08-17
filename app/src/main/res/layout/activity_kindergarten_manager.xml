@@ -7,6 +7,18 @@
     android:background="#A9A9A9"
     tools:context=".views.KindergartenManagerActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Kindergarten Manager"
+        app:popupTheme="@style/CustomPopupTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/button_kindergarten_registration"
         android:layout_width="0dp"
@@ -16,7 +28,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_class_registration"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintWidth_percent="0.37" />
 
     <Button
@@ -27,7 +39,7 @@
         android:text="@string/class_tab"
         app:layout_constraintEnd_toStartOf="@+id/button_staff_registration"
         app:layout_constraintStart_toEndOf="@+id/button_kindergarten_registration"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintWidth_percent="0.25" />
 
     <Button
@@ -38,7 +50,7 @@
         android:text="@string/staff_tab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_class_registration"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintWidth_percent="0.25" />
 
     <FrameLayout
@@ -48,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_kindergarten_registration"
+        app:layout_constraintTop_toBottomOf="@id/button_kindergarten_registration"
         app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
