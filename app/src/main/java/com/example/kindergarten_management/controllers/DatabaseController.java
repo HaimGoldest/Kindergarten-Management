@@ -2,7 +2,7 @@ package com.example.kindergarten_management.controllers;
 
 import android.content.Context;
 
-import com.example.kindergarten_management.helpers.FirebaseDatabaseHelper;
+import com.example.kindergarten_management.helpers.FirestoreHelper;
 import com.example.kindergarten_management.helpers.SqlDatabaseHelper;
 import com.example.kindergarten_management.models.ChildModel;
 import com.example.kindergarten_management.models.ClassModel;
@@ -10,19 +10,18 @@ import com.example.kindergarten_management.models.KindergartenModel;
 import com.example.kindergarten_management.models.StaffMemberModel;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Controller class to manage the database operations.
  * This class is a singleton to ensure only one instance handles database operations.
  */
 public class DatabaseController {
-    private static DatabaseController instance = null;
-    private static FirebaseDatabaseHelper firebaseDb = null;
-    private static SqlDatabaseHelper sqlDb = null;
-    private static Context context = null;
+    private static DatabaseController instance;
+    private static FirestoreHelper firebaseDb;
+    private static SqlDatabaseHelper sqlDb;
 
     private DatabaseController() {
+        firebaseDb = new FirestoreHelper();
     }
 
     /**
@@ -48,8 +47,7 @@ public class DatabaseController {
      * @return True if the staff member was successfully deleted, false otherwise.
      */
     public boolean deleteStaffMember(StaffMemberModel staffMember) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.deleteStaffMember(staffMember);
         return sqlDb.deleteStaffMember(staffMember.getId());
     }
 
@@ -60,8 +58,7 @@ public class DatabaseController {
      * @return True if the staff member was successfully added, false otherwise.
      */
     public boolean addStaffMember(StaffMemberModel staffMember) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.addStaffMember(staffMember);
         return sqlDb.createStaffMember(staffMember);
     }
 
@@ -72,14 +69,11 @@ public class DatabaseController {
      * @return True if the staff member was successfully updated, false otherwise.
      */
     public boolean updateStaffMember(StaffMemberModel staffMember) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.updateStaffMember(staffMember);
         return sqlDb.updateStaffMember(staffMember);
     }
 
     public StaffMemberModel getStaffMember(int staffMemberId) {
-        // TODO: Integrate with Firebase
-
         return sqlDb.readStaffMember(staffMemberId);
     }
 
@@ -89,8 +83,6 @@ public class DatabaseController {
      * @return A list of all staff members.
      */
     public List<StaffMemberModel> getAllStaffMembers() {
-        // TODO: Integrate with Firebase
-
         return sqlDb.getAllStaffMembers();
     }
 
@@ -101,8 +93,7 @@ public class DatabaseController {
      * @return True if the class was successfully deleted, false otherwise.
      */
     public boolean deleteClass(ClassModel classModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.deleteClass(classModel);
         return sqlDb.deleteClass(classModel.getId());
     }
 
@@ -113,8 +104,7 @@ public class DatabaseController {
      * @return True if the class was successfully added, false otherwise.
      */
     public boolean addClass(ClassModel classModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.addClass(classModel);
         return sqlDb.createClass(classModel);
     }
 
@@ -125,15 +115,12 @@ public class DatabaseController {
      * @return True if the class was successfully updated, false otherwise.
      */
     public boolean updateClass(ClassModel classModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.updateClass(classModel);
         return sqlDb.updateClass(classModel);
 
     }
 
     public ClassModel getClassModel(int classId) {
-        // TODO: Integrate with Firebase
-
         return sqlDb.readClass(classId);
     }
 
@@ -143,8 +130,6 @@ public class DatabaseController {
      * @return A list of all classes.
      */
     public List<ClassModel> getAllClasses() {
-        // TODO: Integrate with Firebase
-
         return sqlDb.getAllClasses();
     }
 
@@ -155,8 +140,6 @@ public class DatabaseController {
      * @return A list of classes for the given kindergarten.
      */
     public List<ClassModel> getClassesByKindergarten(KindergartenModel kindergarten) {
-        // TODO: Integrate with Firebase
-
         return sqlDb.getClassesByKindergarten(kindergarten.getId());
     }
 
@@ -167,8 +150,7 @@ public class DatabaseController {
      * @return True if the kindergarten was successfully deleted, false otherwise.
      */
     public boolean deleteKindergarten(KindergartenModel kindergartenModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.deleteKindergarten(kindergartenModel);
         return sqlDb.deleteKindergarten(kindergartenModel.getId());
     }
 
@@ -179,8 +161,7 @@ public class DatabaseController {
      * @return True if the kindergarten was successfully added, false otherwise.
      */
     public boolean addKindergarten(KindergartenModel kindergartenModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.addKindergarten(kindergartenModel);
         return sqlDb.createKindergarten(kindergartenModel);
     }
 
@@ -191,14 +172,11 @@ public class DatabaseController {
      * @return True if the kindergarten was successfully updated, false otherwise.
      */
     public boolean updateKindergarten(KindergartenModel kindergartenModel) {
-        // TODO: Integrate with Firebase
-
+        firebaseDb.updateKindergarten(kindergartenModel);
         return sqlDb.updateKindergarten(kindergartenModel);
     }
 
     public KindergartenModel getKindergarten(int kindergartenId) {
-        // TODO: Integrate with Firebase
-
         return sqlDb.readKindergarten(kindergartenId);
     }
 
@@ -213,8 +191,6 @@ public class DatabaseController {
      * @return A list of all kindergartens.
      */
     public List<KindergartenModel> getAllKindergartens() {
-        // TODO: Integrate with Firebase
-
         return sqlDb.getAllKindergartens();
     }
 
@@ -240,9 +216,6 @@ public class DatabaseController {
     }
 
     public boolean addChild(ChildModel child) {
-        //todo - fix here
-
-        // Simulate random result for temporary behavior
-        return new Random().nextBoolean();
+        return firebaseDb.addChild(child);
     }
 }

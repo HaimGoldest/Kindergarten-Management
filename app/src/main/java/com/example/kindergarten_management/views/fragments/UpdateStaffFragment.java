@@ -188,7 +188,6 @@ public class UpdateStaffFragment extends Fragment {
     }
 
     private boolean validateInputs() {
-        //todo - to implement
         if (currentStaffMember == null) {
             SnackbarHelper.sendErrorMessage(getView(), "Error: Staff Member not fount");
             FragmentHelper.replaceFragment(getParentFragmentManager(), R.id.kindergarten_manager_fragment, new ClassFragment());
