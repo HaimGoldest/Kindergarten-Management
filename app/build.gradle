@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    // Add the Google services Gradle plugin
     id 'com.google.gms.google-services'
 }
 
@@ -38,13 +37,17 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
+    // for images
+    implementation 'com.squareup.picasso:picasso:2.8'
+
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:33.1.2')
     // Add the Firebase Authentication dependency
     implementation 'com.google.firebase:firebase-auth'
     // Add the Firebase Firestore dependency
     implementation 'com.google.firebase:firebase-firestore'
+    // Add the Firebase Storage dependency
+    implementation 'com.google.firebase:firebase-storage'
 }
 
-// Add the Google services Gradle plugin at the bottom
 apply plugin: 'com.google.gms.google-services'
