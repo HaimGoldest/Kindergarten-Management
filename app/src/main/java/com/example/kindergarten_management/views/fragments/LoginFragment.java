@@ -71,7 +71,7 @@ public class LoginFragment extends Fragment {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
-                    AuthHelper.userLogin(getContext(), getView(), uid);
+                    AuthHelper.userLogin(getContext(), getView(), getParentFragmentManager(), uid);
                 }
             } else {
               String errorMsg = "Login failed: " + Objects.requireNonNull(task.getException()).getMessage();

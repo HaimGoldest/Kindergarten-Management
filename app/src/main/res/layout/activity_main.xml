@@ -7,41 +7,34 @@
     android:background="#A9A9A9"
     tools:context=".views.MainActivity">
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/main_progress_bar"
+        android:layout_width="113dp"
+        android:layout_height="71dp"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/manager_button"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Manager" />
-
-        <Button
-            android:id="@+id/parent_button"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Parent" />
-
-        <Button
-            android:id="@+id/out_button"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:text="out" />
-
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Kindergarten Management"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:popupTheme="@style/CustomPopupTheme" />
 
     <FrameLayout
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" >

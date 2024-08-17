@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.fragment.app.FragmentManager;
+
+import com.example.kindergarten_management.R;
 import com.example.kindergarten_management.users.AdminUser;
 import com.example.kindergarten_management.users.BaseUser;
 import com.example.kindergarten_management.users.KindergartenManagerUser;
@@ -12,6 +15,7 @@ import com.example.kindergarten_management.users.StaffMemberUser;
 import com.example.kindergarten_management.views.KindergartenManagerActivity;
 import com.example.kindergarten_management.views.MainActivity;
 import com.example.kindergarten_management.views.ParentActivity;
+import com.example.kindergarten_management.views.fragments.AdminFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,7 +29,7 @@ public class AuthHelper {
      * Method to check if there is a logged-in Firebase user.
      * If a user is found, it sets the currentUser to this user.
      */
-    public static void checkLoggedInUser(Context context, View view, OnUserFoundCallback callback) {
+    public static void checkLoggedInUser(Context context, View view, FragmentManager fragmentManager, OnUserFoundCallback callback) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -35,7 +39,7 @@ public class AuthHelper {
                 if (success) {
                     callback.onUserFound(true);
                     SnackbarHelper.sendSuccessMessage(view, "User is already logged in");
-                    navigateToUserHomepageAfterLogin(context);
+                    navigateToUserHomepageAfterLogin(context, fragmentManager);
                 } else {
                     callback.onUserFound(false);
                     SnackbarHelper.sendErrorMessage(view, "User data not found in Firestore");
@@ -50,11 +54,11 @@ public class AuthHelper {
     /**
      * Method to register a new user
      */
-    public static void registerNewUser(Context context, View view, BaseUser user) {
+    public static void registerNewUser(Context context, View view, FragmentManager fragmentManager, BaseUser user) {
         addUserToFirebase(view, user, success -> {
             if (success) {
                 currentUser = user;
-                navigateToUserHomepageAfterLogin(context);
+                navigateToUserHomepageAfterLogin(context, fragmentManager);
             } else {
                 SnackbarHelper.sendErrorMessage(view, "Registration failed. Please try again.");
             }
@@ -64,11 +68,11 @@ public class AuthHelper {
     /**
      * Method for user login
      */
-    public static void userLogin(Context context, View view, String userUid) {
+    public static void userLogin(Context context, View view, FragmentManager fragmentManager, String userUid) {
         findUserInFirebase(view, userUid, success -> {
             if (success) {
                 SnackbarHelper.sendSuccessMessage(view, "Login successful");
-                navigateToUserHomepageAfterLogin(context);
+                navigateToUserHomepageAfterLogin(context, fragmentManager);
             } else {
                 SnackbarHelper.sendErrorMessage(view, "User not found!");
             }
@@ -141,6 +145,9 @@ public class AuthHelper {
         String name = documentSnapshot.getString("name");
         String rule = documentSnapshot.getString("rule");
 
+        if (rule == null)
+            return null;
+
         switch (rule) {
             case "AdminUser":
                 return new AdminUser(uid,email,name);
@@ -173,12 +180,14 @@ public class AuthHelper {
     /**
      * Method to navigate to the user's homepage after login
      */
-    private static void navigateToUserHomepageAfterLogin(Context context) {
+    private static void navigateToUserHomepageAfterLogin(Context context, FragmentManager fragmentManager) {
         String rule = currentUser.getRule();
         Intent intent;
 
         switch (rule) {
             case "AdminUser":
+                FragmentHelper.replaceFragment(fragmentManager, R.id.main_fragment, new AdminFragment());
+                break;
             case "KindergartenManagerUser":
                 intent = new Intent(context, KindergartenManagerActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

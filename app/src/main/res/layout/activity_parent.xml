@@ -7,12 +7,24 @@
     android:background="#A9A9A9"
     tools:context=".views.ParentActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Parent Activity"
+        app:popupTheme="@style/CustomPopupTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/button_show_kindergartens"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Show All Kindergartens"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -50,25 +62,27 @@
         android:id="@+id/button_show_images"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:text="Show Images"
-        app:layout_constraintTop_toBottomOf="@id/button_child_registration"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_margin="5dp"
-        android:backgroundTint="@android:color/holo_red_dark" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_child_registration"
+        app:layout_constraintWidth_percent="0.45" />
 
     <FrameLayout
         android:id="@+id/parent_fragment_container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/button_show_images"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9"
         app:layout_constraintHeight_percent="0.7"
-        android:layout_margin="8dp" />
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_show_images"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintWidth_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

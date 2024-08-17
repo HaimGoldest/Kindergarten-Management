@@ -81,7 +81,7 @@ public class SignUpFragment extends Fragment {
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
                     BaseUser newUser = AuthHelper.buildUser(uid, email, name, rule);
-                    AuthHelper.registerNewUser(getContext(), getView(), newUser);
+                    AuthHelper.registerNewUser(getContext(), getView(), getParentFragmentManager(),newUser);
                 }
             } else {
                 String errorMsg = "Registration failed: " + Objects.requireNonNull(task.getException()).getMessage();
