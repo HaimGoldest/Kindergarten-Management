@@ -59,7 +59,7 @@ public class SignUpFragment extends Fragment {
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        String name = ""; //todo - fix here
+        String name = ""; //todo - add in UI
         String rule = (String) spinnerUserRule.getSelectedItem();
 
         if (TextUtils.isEmpty(email)) {
